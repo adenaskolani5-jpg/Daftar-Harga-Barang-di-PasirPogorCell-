@@ -5,145 +5,205 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PasirPogorCell - Daftar Barang</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <style>
-        /* ===== RESET & BASE ===== */
-        * { margin:0; padding:0; box-sizing:border-box; }
+        /* ============================================================
+               RESET & BASE
+               ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --radius-card: 20px;
+            --radius-modal: 28px;
+            --radius-btn: 40px;
+            --transition-smooth: cubic-bezier(0.23, 1, 0.32, 1);
+            --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 20px 60px rgba(0, 0, 0, 0.16);
+            --shadow-modal: 0 40px 80px rgba(0, 0, 0, 0.3);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
-            min-height:100vh;
-            display:flex;
-            justify-content:center;
-            align-items:flex-start;
-            padding:0 20px 80px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            padding: 0 20px 80px;
             background: linear-gradient(145deg, #0b2b1e 0%, #1a5a4a 30%, #1e6b7a 60%, #1a4a5a 100%);
             background-attachment: fixed;
-            transition: background 0.3s, color 0.3s;
+            transition: background 0.6s ease, color 0.3s;
+            position: relative;
         }
+
         body::before {
             content: '';
             position: fixed;
-            top:0; left:0; width:100%; height:100%;
-            background: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.06) 0%, transparent 60%),
-                        radial-gradient(circle at 80% 70%, rgba(0,255,200,0.04) 0%, transparent 50%);
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.07) 0%, transparent 60%),
+                radial-gradient(circle at 80% 70%, rgba(0, 255, 200, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(74, 222, 128, 0.03) 0%, transparent 70%);
             pointer-events: none;
-            z-index:0;
-            transition: opacity 0.3s;
+            z-index: 0;
+            transition: opacity 0.6s;
         }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+
         .container {
-            max-width:1240px;
-            width:100%;
-            margin:0 auto;
-            position:relative;
-            z-index:1;
+            max-width: 1240px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
         /* ============================================================
-           MODE TERANG
-           ============================================================ */
+               LIGHT THEME
+               ============================================================ */
         [data-theme="light"] body {
-            background: linear-gradient(135deg, #f0fdf4, #d1fae5) !important;
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 40%, #a7f3d0 100%) !important;
         }
+
         [data-theme="light"] body::before {
-            opacity: 0.3;
+            opacity: 0.2;
         }
+
         [data-theme="light"] .header {
-            background: rgba(255,255,255,0.85);
-            border-color: rgba(0,196,106,0.2);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+            background: rgba(255, 255, 255, 0.78);
+            border-color: rgba(0, 196, 106, 0.15);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
         }
+
         [data-theme="light"] .header .logo {
-            color: #0A2E1A;
+            color: #064e3b;
             text-shadow: none;
         }
         [data-theme="light"] .header .logo span {
-            color: #00C46A;
+            color: #059669;
         }
         [data-theme="light"] .header .sub {
-            color: #4A6B5A;
+            color: #4b6b5a;
         }
         [data-theme="light"] .header .info-badge {
-  background: #ffffff;
-  color: #0A2E1A;
-  border: 1.5px solid #00C46A;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-}
-        [data-theme="light"] .controls {
-            background: rgba(255,255,255,0.9);
-            border-color: rgba(0,196,106,0.15);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            background: #ffffff;
+            color: #064e3b;
+            border: 1.5px solid #059669;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
         }
+        [data-theme="light"] .header .info-badge .jam-icon {
+            color: #059669;
+        }
+
+        [data-theme="light"] .theme-toggle {
+            background: #e8f5ee;
+            color: #064e3b;
+            border-color: #059669;
+        }
+        [data-theme="light"] .theme-toggle:hover {
+            background: #d1f0e3;
+        }
+
+        [data-theme="light"] .controls {
+            background: rgba(255, 255, 255, 0.85);
+            border-color: rgba(0, 196, 106, 0.12);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+        }
+
         [data-theme="light"] .search-box input {
             background: #f8fafc;
             border-color: #dce0e6;
             color: #1a2634;
         }
         [data-theme="light"] .search-box input:focus {
-            border-color: #00C46A;
+            border-color: #059669;
             background: #fff;
-            box-shadow: 0 0 0 3px rgba(0,196,106,0.15);
+            box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.12);
         }
         [data-theme="light"] .search-box .icon {
             color: #8a9bb5;
         }
+
         [data-theme="light"] .filter-group .filter-btn {
-            color: #4A6B5A;
+            color: #4a6b5a;
             border-color: #dce0e6;
         }
         [data-theme="light"] .filter-group .filter-btn:hover {
-            border-color: #00C46A;
-            color: #00C46A;
+            border-color: #059669;
+            color: #059669;
+            background: rgba(5, 150, 105, 0.06);
         }
         [data-theme="light"] .filter-group .filter-btn.active {
-            background: #00C46A;
-            border-color: #00C46A;
+            background: #059669;
+            border-color: #059669;
             color: #fff;
+            box-shadow: 0 4px 14px rgba(5, 150, 105, 0.3);
         }
+
         [data-theme="light"] .filter-select {
             background: #f8fafc;
             border-color: #dce0e6;
             color: #1a2634;
         }
         [data-theme="light"] .filter-select:focus {
-            border-color: #00C46A;
+            border-color: #059669;
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
         }
+
         [data-theme="light"] .result-info {
-            color: #4A6B5A;
+            color: #4a6b5a;
             text-shadow: none;
         }
+        [data-theme="light"] .result-info span {
+            color: #059669;
+        }
+
         [data-theme="light"] .product-card {
-            background: #fff;
-            border-color: rgba(0,196,106,0.15);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            background: rgba(255, 255, 255, 0.92);
+            border-color: rgba(0, 196, 106, 0.10);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
         }
         [data-theme="light"] .product-card:hover {
-            background: #fafdfb;
-            box-shadow: 0 16px 40px rgba(0,0,0,0.1);
+            background: #ffffff;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            border-color: rgba(5, 150, 105, 0.2);
         }
         [data-theme="light"] .product-number {
-            background: rgba(0,0,0,0.08);
-            color: #4A6B5A;
+            background: rgba(0, 0, 0, 0.06);
+            color: #4a6b5a;
         }
         [data-theme="light"] .product-image {
             background: #f0f3f7;
         }
         [data-theme="light"] .product-name {
-            color: #0A2E1A;
+            color: #064e3b;
         }
         [data-theme="light"] .product-category {
             color: #7a8a9a;
         }
         [data-theme="light"] .product-price {
-            color: #00C46A;
+            color: #059669;
         }
         [data-theme="light"] .product-price .currency {
             color: #5e6f8d;
         }
         [data-theme="light"] .product-stok {
-            color: #4A6B5A;
+            color: #4a6b5a;
         }
         [data-theme="light"] .product-stok .stok-tersedia {
-            color: #00C46A;
+            color: #059669;
         }
         [data-theme="light"] .product-stok .stok-habis {
             color: #94a3b8;
@@ -154,37 +214,57 @@
         }
         [data-theme="light"] .btn-detail:hover {
             background: #dce0e6;
+            transform: translateY(-2px);
         }
+        [data-theme="light"] .btn-wa {
+            background: #25d366;
+            color: #fff;
+        }
+        [data-theme="light"] .btn-wa:hover {
+            background: #1ebe5c;
+            transform: translateY(-2px);
+        }
+
         [data-theme="light"] .badge-habis {
             background: #94a3b8;
             color: #fff;
         }
+        [data-theme="light"] .badge-stok {
+            background: #059669;
+            color: #fff;
+        }
+        [data-theme="light"] .badge-hot {
+            background: #f59e0b;
+            color: #fff;
+        }
+
         [data-theme="light"] .modal {
-            background: #fff;
+            background: #ffffff;
         }
         [data-theme="light"] .modal-close {
             color: #8a9bb5;
         }
         [data-theme="light"] .modal-close:hover {
             color: #1a2634;
+            transform: rotate(90deg);
         }
         [data-theme="light"] .modal-name {
-            color: #0b1a2a;
+            color: #064e3b;
         }
         [data-theme="light"] .modal-category {
-            color: #8a9bb5;
+            color: #7a8a9a;
         }
         [data-theme="light"] .modal-price {
-            color: #00C46A;
+            color: #059669;
         }
         [data-theme="light"] .modal-price .currency {
             color: #5e6f8d;
         }
         [data-theme="light"] .modal-stok {
-            color: #4A6B5A;
+            color: #4a6b5a;
         }
         [data-theme="light"] .modal-stok .stok-tersedia {
-            color: #00C46A;
+            color: #059669;
         }
         [data-theme="light"] .modal-stok .stok-habis {
             color: #94a3b8;
@@ -192,7 +272,7 @@
         [data-theme="light"] .modal-desc {
             background: #f8f9fb;
             color: #1a2634;
-            border-left-color: #00C46A;
+            border-left-color: #059669;
         }
         [data-theme="light"] .modal-copy-btn {
             background: #f0f2f5;
@@ -200,9 +280,19 @@
         }
         [data-theme="light"] .modal-copy-btn:hover {
             background: #e2e6ec;
+            transform: translateY(-2px);
         }
+        [data-theme="light"] .modal-wa {
+            background: #25d366;
+            color: #fff;
+        }
+        [data-theme="light"] .modal-wa:hover {
+            background: #1ebe5c;
+            transform: translateY(-2px);
+        }
+
         [data-theme="light"] .order-modal .modal-title {
-            color: #0b2b1e;
+            color: #064e3b;
         }
         [data-theme="light"] .order-modal .modal-sub {
             color: #5e6f8d;
@@ -228,48 +318,66 @@
         [data-theme="light"] .order-modal .form-group input:focus,
         [data-theme="light"] .order-modal .form-group textarea:focus,
         [data-theme="light"] .order-modal .form-group select:focus {
-            border-color: #00C46A;
+            border-color: #059669;
             background: #fff;
-            box-shadow: 0 0 0 3px rgba(0,196,106,0.12);
+            box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.10);
         }
-        [data-theme="light"] .order-modal .form-hint {
-            color: #8a9bb5;
+        [data-theme="light"] .order-modal .btn-submit {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(245, 158, 11, 0.35);
         }
+        [data-theme="light"] .order-modal .btn-submit:hover {
+            box-shadow: 0 8px 30px rgba(245, 158, 11, 0.45);
+            transform: translateY(-2px);
+        }
+
         [data-theme="light"] .footer {
-  background: #ffffff;
-  border-color: rgba(0,196,106,0.3);
-  color: #0A2E1A;
-  box-shadow: 0 -2px 12px rgba(0,0,0,0.06);
-}
-[data-theme="light"] .footer strong {
-  color: #0A2E1A;
-}
-[data-theme="light"] .footer .wa-link {
-  color: #00C46A;
-  font-weight: 700;
-}
-[data-theme="light"] .footer .wa-link:hover {
-  color: #008a4a;
-}
-[data-theme="light"] .footer .jam-footer {
-  color: #4A6B5A;
-}
+            background: rgba(255, 255, 255, 0.80);
+            border-color: rgba(0, 196, 106, 0.15);
+            color: #4a6b5a;
+            box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.03);
+        }
+        [data-theme="light"] .footer strong {
+            color: #064e3b;
+        }
+        [data-theme="light"] .footer .wa-link {
+            color: #059669;
+            font-weight: 700;
+        }
         [data-theme="light"] .footer .wa-link:hover {
-            color: #008a4a;
+            color: #047857;
+        }
+        [data-theme="light"] .footer .jam-footer {
+            color: #6b8a7a;
+        }
+
+        [data-theme="light"] .wa-float {
+            background: #25d366;
+            box-shadow: 0 6px 28px rgba(37, 211, 102, 0.4);
+        }
+        [data-theme="light"] .wa-float:hover {
+            box-shadow: 0 10px 40px rgba(37, 211, 102, 0.55);
+        }
+
+        [data-theme="light"] .pulse-ring {
+            border: 2px solid rgba(37, 211, 102, 0.4);
         }
 
         /* ============================================================
-           MODE GELAP (sama seperti sebelumnya)
-           ============================================================ */
+               DARK THEME
+               ============================================================ */
         [data-theme="dark"] body {
-            background: #0a0a0a;
+            background: #0a0a0f;
         }
         [data-theme="dark"] body::before {
-            opacity: 0.2;
+            opacity: 0.15;
         }
+
         [data-theme="dark"] .header {
-            background: rgba(20, 20, 30, 0.85);
-            border-color: rgba(255,255,255,0.08);
+            background: rgba(18, 18, 30, 0.88);
+            border-color: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
         }
         [data-theme="dark"] .header .logo {
             color: #e5e7eb;
@@ -281,27 +389,43 @@
             color: #9ca3af;
         }
         [data-theme="dark"] .header .info-badge {
-            background: rgba(255,255,255,0.08);
+            background: rgba(255, 255, 255, 0.06);
             color: #d1d5db;
-            border-color: rgba(255,255,255,0.06);
+            border-color: rgba(255, 255, 255, 0.06);
         }
+        [data-theme="dark"] .header .info-badge .jam-icon {
+            color: #4ade80;
+        }
+
+        [data-theme="dark"] .theme-toggle {
+            background: rgba(255, 255, 255, 0.08);
+            color: #e5e7eb;
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+        [data-theme="dark"] .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.14);
+        }
+
         [data-theme="dark"] .controls {
-            background: rgba(20, 20, 30, 0.85);
-            border-color: rgba(255,255,255,0.08);
+            background: rgba(18, 18, 30, 0.88);
+            border-color: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
         }
+
         [data-theme="dark"] .search-box input {
-            background: #1a1a2e;
+            background: #141425;
             border-color: #2a2a3e;
             color: #e5e7eb;
         }
         [data-theme="dark"] .search-box input:focus {
             border-color: #4ade80;
-            background: #22223a;
-            box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.15);
+            background: #1a1a32;
+            box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.10);
         }
         [data-theme="dark"] .search-box .icon {
             color: #6b7280;
         }
+
         [data-theme="dark"] .filter-group .filter-btn {
             color: #9ca3af;
             border-color: #2a2a3e;
@@ -309,38 +433,49 @@
         [data-theme="dark"] .filter-group .filter-btn:hover {
             border-color: #4ade80;
             color: #4ade80;
+            background: rgba(74, 222, 128, 0.06);
         }
         [data-theme="dark"] .filter-group .filter-btn.active {
             background: #4ade80;
             border-color: #4ade80;
             color: #0a0a0a;
+            box-shadow: 0 4px 14px rgba(74, 222, 128, 0.25);
         }
+
         [data-theme="dark"] .filter-select {
-            background: #1a1a2e;
+            background: #141425;
             border-color: #2a2a3e;
             color: #e5e7eb;
         }
         [data-theme="dark"] .filter-select:focus {
             border-color: #4ade80;
+            box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.08);
         }
+
         [data-theme="dark"] .result-info {
             color: #9ca3af;
-            text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
         }
+        [data-theme="dark"] .result-info span {
+            color: #4ade80;
+        }
+
         [data-theme="dark"] .product-card {
-            background: rgba(20, 20, 30, 0.85);
-            border-color: rgba(255,255,255,0.06);
+            background: rgba(18, 18, 30, 0.88);
+            border-color: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
         [data-theme="dark"] .product-card:hover {
-            background: rgba(30, 30, 45, 0.9);
-            box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+            background: rgba(26, 26, 44, 0.95);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border-color: rgba(74, 222, 128, 0.15);
         }
         [data-theme="dark"] .product-number {
-            background: rgba(0,0,0,0.7);
+            background: rgba(0, 0, 0, 0.6);
             color: #d1d5db;
         }
         [data-theme="dark"] .product-image {
-            background: #1a1a2e;
+            background: #141425;
         }
         [data-theme="dark"] .product-name {
             color: #e5e7eb;
@@ -369,11 +504,30 @@
         }
         [data-theme="dark"] .btn-detail:hover {
             background: #3a3a52;
+            transform: translateY(-2px);
         }
+        [data-theme="dark"] .btn-wa {
+            background: #25d366;
+            color: #fff;
+        }
+        [data-theme="dark"] .btn-wa:hover {
+            background: #1ebe5c;
+            transform: translateY(-2px);
+        }
+
         [data-theme="dark"] .badge-habis {
             background: #374151;
             color: #9ca3af;
         }
+        [data-theme="dark"] .badge-stok {
+            background: #4ade80;
+            color: #0a0a0a;
+        }
+        [data-theme="dark"] .badge-hot {
+            background: #f59e0b;
+            color: #0a0a0a;
+        }
+
         [data-theme="dark"] .modal {
             background: #1a1a2e;
         }
@@ -382,6 +536,7 @@
         }
         [data-theme="dark"] .modal-close:hover {
             color: #e5e7eb;
+            transform: rotate(90deg);
         }
         [data-theme="dark"] .modal-name {
             color: #e5e7eb;
@@ -415,7 +570,17 @@
         }
         [data-theme="dark"] .modal-copy-btn:hover {
             background: #3a3a52;
+            transform: translateY(-2px);
         }
+        [data-theme="dark"] .modal-wa {
+            background: #25d366;
+            color: #fff;
+        }
+        [data-theme="dark"] .modal-wa:hover {
+            background: #1ebe5c;
+            transform: translateY(-2px);
+        }
+
         [data-theme="dark"] .order-modal .modal-title {
             color: #e5e7eb;
         }
@@ -445,14 +610,21 @@
         [data-theme="dark"] .order-modal .form-group select:focus {
             border-color: #4ade80;
             background: #1a1a2e;
-            box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.12);
+            box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.08);
         }
-        [data-theme="dark"] .order-modal .form-hint {
-            color: #6b7280;
+        [data-theme="dark"] .order-modal .btn-submit {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(245, 158, 11, 0.3);
         }
+        [data-theme="dark"] .order-modal .btn-submit:hover {
+            box-shadow: 0 8px 30px rgba(245, 158, 11, 0.4);
+            transform: translateY(-2px);
+        }
+
         [data-theme="dark"] .footer {
-            background: rgba(20, 20, 30, 0.6);
-            border-color: rgba(255,255,255,0.06);
+            background: rgba(18, 18, 30, 0.6);
+            border-color: rgba(255, 255, 255, 0.04);
             color: #9ca3af;
         }
         [data-theme="dark"] .footer strong {
@@ -461,583 +633,1417 @@
         [data-theme="dark"] .footer .wa-link {
             color: #4ade80;
         }
+        [data-theme="dark"] .footer .wa-link:hover {
+            color: #86efac;
+        }
+        [data-theme="dark"] .footer .jam-footer {
+            color: #6b7280;
+        }
+
+        [data-theme="dark"] .wa-float {
+            background: #25d366;
+            box-shadow: 0 6px 28px rgba(37, 211, 102, 0.35);
+        }
+        [data-theme="dark"] .wa-float:hover {
+            box-shadow: 0 10px 40px rgba(37, 211, 102, 0.5);
+        }
 
         /* ============================================================
-           STYLE UMUM (sama seperti sebelumnya)
-           ============================================================ */
+               HEADER
+               ============================================================ */
         .header {
-            text-align:center;
-            padding:32px 0 28px;
-            margin-bottom:32px;
-            background: rgba(255,255,255,0.08);
-            backdrop-filter: blur(12px);
-            border-radius:20px;
-            border:1px solid rgba(255,255,255,0.12);
-            box-shadow:0 8px 32px rgba(0,0,0,0.2);
-            transition: background 0.3s, border-color 0.3s;
+            text-align: center;
+            padding: 36px 28px 28px;
+            margin-bottom: 32px;
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: var(--radius-card);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            transition: background 0.4s, border-color 0.4s, box-shadow 0.4s;
+            position: relative;
+            overflow: hidden;
         }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 70% 20%, rgba(74, 222, 128, 0.06) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
         .header .logo {
-            font-size:32px;
-            font-weight:800;
-            letter-spacing:-0.5px;
-            color:#fff;
-            text-shadow:0 2px 16px rgba(0,0,0,0.2);
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            color: #fff;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .header .logo span {
+            color: #7ae9c0;
             transition: color 0.3s;
         }
-        .header .logo span { color:#7ae9c0; transition: color 0.3s; }
+
         .header .sub {
-            font-size:15px;
-            color:rgba(255,255,255,0.8);
-            margin-top:2px;
-            font-weight:400;
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.75);
+            margin-top: 4px;
+            font-weight: 400;
             transition: color 0.3s;
+            letter-spacing: 0.3px;
         }
+
         .header .info-row {
-            display:flex;
-            flex-wrap:wrap;
-            justify-content:center;
-            gap:12px 20px;
-            margin-top:12px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px 18px;
+            margin-top: 14px;
         }
-        .header .info-badge {
-            display:inline-flex;
-            align-items:center;
-            gap:6px;
-            background:rgba(255,255,255,0.12);
-            color:#fff;
-            font-weight:500;
-            font-size:13px;
-            padding:5px 16px;
-            border-radius:40px;
-            backdrop-filter:blur(4px);
-            border:1px solid rgba(255,255,255,0.08);
-            transition: background 0.3s, color 0.3s, border-color 0.3s;
-        }
-        .header .info-badge .jam-icon { font-size:15px; }
-        .header .btn-group {
-            display:flex;
-            flex-wrap:wrap;
-            justify-content:center;
-            gap:10px;
-            margin-top:14px;
-        }
-        .header .wa-link, .header .order-link {
-            display:inline-flex;
-            align-items:center;
-            gap:8px;
-            color:#fff;
-            font-weight:600;
-            font-size:14px;
-            padding:10px 28px;
-            border-radius:40px;
-            text-decoration:none;
-            transition:0.2s;
-            border:none;
-            cursor:pointer;
-            font-family:inherit;
-        }
-        .header .wa-link {
-            background:#25d366;
-            box-shadow:0 4px 14px rgba(37,211,102,0.35);
-        }
-        .header .wa-link:hover { background:#1ebe5c; transform:scale(1.02); }
-        .header .order-link {
-            background:linear-gradient(135deg, #f59e0b, #d97706);
-            box-shadow:0 4px 14px rgba(245,158,11,0.35);
-        }
-        .header .order-link:hover { transform:scale(1.02); opacity:0.9; }
 
-        /* ===== CONTROLS ===== */
-        .controls {
-            display:flex;
-            flex-wrap:wrap;
-            gap:14px;
-            align-items:center;
-            justify-content:space-between;
-            margin-bottom:28px;
-            background:rgba(255,255,255,0.85);
-            backdrop-filter:blur(12px);
-            padding:14px 20px;
-            border-radius:16px;
-            box-shadow:0 4px 20px rgba(0,0,0,0.08);
-            border:1px solid rgba(255,255,255,0.3);
-            transition: background 0.3s, border-color 0.3s;
+        .header .info-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.10);
+            color: #fff;
+            font-weight: 500;
+            font-size: 13px;
+            padding: 6px 18px;
+            border-radius: 40px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: background 0.3s, color 0.3s, border-color 0.3s, transform 0.2s;
         }
-        .controls-left { display:flex; flex-wrap:wrap; gap:12px; align-items:center; flex:1; }
-        .controls-right { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
-        .search-box { position:relative; flex:1; min-width:200px; max-width:340px; }
-        .search-box input {
-            width:100%;
-            padding:10px 16px 10px 42px;
-            border:1.5px solid #e2e6ec;
-            border-radius:10px;
-            font-size:14px;
-            font-family:inherit;
-            background:#f8f9fb;
-            transition:0.2s;
-            color:#1a2634;
-            outline:none;
+
+        .header .info-badge:hover {
+            transform: translateY(-2px);
         }
-        .search-box input:focus {
-            border-color:#1a7a4a;
-            background:#fff;
-            box-shadow:0 0 0 3px rgba(26,122,74,0.15);
-        }
-        .search-box .icon {
-            position:absolute;
-            left:14px;
-            top:50%;
-            transform:translateY(-50%);
-            color:#8a9bb5;
-            font-size:16px;
-            pointer-events:none;
+
+        .header .info-badge .jam-icon {
+            font-size: 15px;
             transition: color 0.3s;
         }
-        .filter-group { display:flex; flex-wrap:wrap; gap:6px; }
+
+        .header .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 18px;
+            position: relative;
+        }
+
+        .header .btn-group .wa-link,
+        .header .btn-group .order-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 14px;
+            padding: 12px 32px;
+            border-radius: var(--radius-btn);
+            text-decoration: none;
+            transition: all 0.3s var(--transition-smooth);
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header .btn-group .wa-link {
+            background: #25d366;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.35);
+        }
+        .header .btn-group .wa-link:hover {
+            background: #1ebe5c;
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.45);
+        }
+
+        .header .btn-group .order-link {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            box-shadow: 0 4px 20px rgba(245, 158, 11, 0.35);
+        }
+        .header .btn-group .order-link:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 30px rgba(245, 158, 11, 0.45);
+        }
+
+        .header .btn-group .wa-link::after,
+        .header .btn-group .order-link::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        .header .btn-group .wa-link:hover::after,
+        .header .btn-group .order-link:hover::after {
+            opacity: 1;
+        }
+
+        /* ===== Theme Toggle ===== */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(255, 255, 255, 0.10);
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.4s var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(30deg) scale(1.08);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        .theme-toggle .icon-sun {
+            display: none;
+        }
+        .theme-toggle .icon-moon {
+            display: block;
+        }
+
+        [data-theme="light"] .theme-toggle .icon-sun {
+            display: block;
+        }
+        [data-theme="light"] .theme-toggle .icon-moon {
+            display: none;
+        }
+
+        /* ============================================================
+               CONTROLS
+               ============================================================ */
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 28px;
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 16px 22px;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: background 0.4s, border-color 0.4s, box-shadow 0.4s;
+        }
+
+        .controls-left {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            flex: 1;
+        }
+        .controls-right {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            min-width: 200px;
+            max-width: 340px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 11px 16px 11px 44px;
+            border: 1.5px solid #2a2a3e;
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: inherit;
+            background: #141425;
+            transition: all 0.3s var(--transition-smooth);
+            color: #e5e7eb;
+            outline: none;
+        }
+
+        .search-box input::placeholder {
+            color: #6b7280;
+        }
+
+        .search-box .icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6b7280;
+            font-size: 16px;
+            pointer-events: none;
+            transition: color 0.3s;
+        }
+
+        .search-box input:focus+.icon,
+        .search-box input:focus~.icon {
+            color: #4ade80;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
         .filter-group .filter-btn {
-            padding:8px 16px;
-            border:1.5px solid #dce0e6;
-            border-radius:30px;
-            background:transparent;
-            font-size:12px;
-            font-weight:600;
-            color:#3a4a5a;
-            cursor:pointer;
-            transition:0.2s;
-            font-family:inherit;
-            letter-spacing:0.3px;
-            text-transform:uppercase;
+            padding: 8px 18px;
+            border: 1.5px solid #2a2a3e;
+            border-radius: 30px;
+            background: transparent;
+            font-size: 12px;
+            font-weight: 600;
+            color: #9ca3af;
+            cursor: pointer;
+            transition: all 0.3s var(--transition-smooth);
+            font-family: inherit;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
         }
-        .filter-group .filter-btn:hover { border-color:#1a7a4a; color:#1a7a4a; }
-        .filter-group .filter-btn.active { background:#1a7a4a; border-color:#1a7a4a; color:#fff; }
+
+        .filter-group .filter-btn:active {
+            transform: scale(0.94);
+        }
+
         .filter-select {
-            padding:8px 14px;
-            border:1.5px solid #dce0e6;
-            border-radius:30px;
-            background:#f8f9fb;
-            font-size:12px;
-            font-weight:500;
-            color:#1a2634;
-            font-family:inherit;
-            outline:none;
-            cursor:pointer;
-            transition:0.2s;
+            padding: 8px 16px;
+            border: 1.5px solid #2a2a3e;
+            border-radius: 30px;
+            background: #141425;
+            font-size: 12px;
+            font-weight: 500;
+            color: #e5e7eb;
+            font-family: inherit;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.3s var(--transition-smooth);
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 34px;
         }
-        .filter-select:focus { border-color:#1a7a4a; }
-        .filter-select:hover { border-color:#1a7a4a; }
+
+        .filter-select option {
+            background: #141425;
+            color: #e5e7eb;
+        }
+
         .result-info {
-            font-size:13px;
-            color:rgba(255,255,255,0.9);
-            text-align:center;
-            margin-bottom:18px;
-            font-weight:500;
-            text-shadow:0 1px 8px rgba(0,0,0,0.15);
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.85);
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 500;
+            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.10);
             transition: color 0.3s, text-shadow 0.3s;
+            letter-spacing: 0.2px;
         }
 
-        /* ===== PRODUCT GRID ===== */
-        .product-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:24px; }
+        .result-info span {
+            font-weight: 700;
+            transition: color 0.3s;
+        }
 
-        /* ===== PRODUCT CARD ===== */
+        /* ============================================================
+               PRODUCT GRID
+               ============================================================ */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 28px;
+        }
+
+        /* ============================================================
+               PRODUCT CARD
+               ============================================================ */
         .product-card {
-            background:rgba(255,255,255,0.92);
-            backdrop-filter:blur(8px);
-            border-radius:16px;
-            overflow:hidden;
-            box-shadow:0 4px 20px rgba(0,0,0,0.08);
-            transition:transform 0.25s,box-shadow 0.3s, background 0.3s, border-color 0.3s;
-            border:1px solid rgba(255,255,255,0.3);
-            display:flex;
-            flex-direction:column;
-            position:relative;
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: var(--radius-card);
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            transition: all 0.4s var(--transition-smooth);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px) scale(0.97);
+            animation: cardEntrance 0.6s var(--transition-smooth) forwards;
         }
+
+        .product-card:nth-child(1) {
+            animation-delay: 0.02s;
+        }
+        .product-card:nth-child(2) {
+            animation-delay: 0.06s;
+        }
+        .product-card:nth-child(3) {
+            animation-delay: 0.10s;
+        }
+        .product-card:nth-child(4) {
+            animation-delay: 0.14s;
+        }
+        .product-card:nth-child(5) {
+            animation-delay: 0.18s;
+        }
+        .product-card:nth-child(6) {
+            animation-delay: 0.22s;
+        }
+        .product-card:nth-child(7) {
+            animation-delay: 0.26s;
+        }
+        .product-card:nth-child(8) {
+            animation-delay: 0.30s;
+        }
+        .product-card:nth-child(9) {
+            animation-delay: 0.34s;
+        }
+        .product-card:nth-child(10) {
+            animation-delay: 0.38s;
+        }
+        .product-card:nth-child(11) {
+            animation-delay: 0.42s;
+        }
+        .product-card:nth-child(12) {
+            animation-delay: 0.46s;
+        }
+        .product-card:nth-child(13) {
+            animation-delay: 0.50s;
+        }
+        .product-card:nth-child(14) {
+            animation-delay: 0.54s;
+        }
+        .product-card:nth-child(15) {
+            animation-delay: 0.58s;
+        }
+        .product-card:nth-child(16) {
+            animation-delay: 0.62s;
+        }
+        .product-card:nth-child(17) {
+            animation-delay: 0.66s;
+        }
+        .product-card:nth-child(18) {
+            animation-delay: 0.70s;
+        }
+        .product-card:nth-child(19) {
+            animation-delay: 0.74s;
+        }
+        .product-card:nth-child(20) {
+            animation-delay: 0.78s;
+        }
+        .product-card:nth-child(21) {
+            animation-delay: 0.82s;
+        }
+        .product-card:nth-child(22) {
+            animation-delay: 0.86s;
+        }
+        .product-card:nth-child(23) {
+            animation-delay: 0.90s;
+        }
+        .product-card:nth-child(24) {
+            animation-delay: 0.94s;
+        }
+        .product-card:nth-child(25) {
+            animation-delay: 0.98s;
+        }
+        .product-card:nth-child(26) {
+            animation-delay: 1.02s;
+        }
+        .product-card:nth-child(27) {
+            animation-delay: 1.06s;
+        }
+        .product-card:nth-child(28) {
+            animation-delay: 1.10s;
+        }
+        .product-card:nth-child(29) {
+            animation-delay: 1.14s;
+        }
+        .product-card:nth-child(30) {
+            animation-delay: 1.18s;
+        }
+
+        @keyframes cardEntrance {
+            0% {
+                opacity: 0;
+                transform: translateY(30px) scale(0.97);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
         .product-card:hover {
-            transform:translateY(-6px);
-            box-shadow:0 16px 40px rgba(0,0,0,0.15);
-            background:rgba(255,255,255,0.98);
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+            border-color: rgba(74, 222, 128, 0.12);
         }
+
         .product-number {
-            position:absolute;
-            top:10px;
-            right:10px;
-            background:rgba(0,0,0,0.55);
-            color:#fff;
-            font-size:11px;
-            font-weight:700;
-            padding:2px 10px;
-            border-radius:20px;
-            z-index:2;
-            letter-spacing:0.5px;
-            backdrop-filter:blur(4px);
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(0, 0, 0, 0.50);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 12px;
+            border-radius: 20px;
+            z-index: 2;
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(4px);
             transition: background 0.3s, color 0.3s;
         }
+
         .product-image {
-            width:100%;
-            aspect-ratio:1/1;
-            background:#f0f3f7;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            overflow:hidden;
-            position:relative;
+            width: 100%;
+            aspect-ratio: 1/1;
+            background: #141425;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
             transition: background 0.3s;
         }
+
         .product-image img {
-            width:100%;
-            height:100%;
-            object-fit:cover;
-            transition:transform 0.4s;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s var(--transition-smooth);
         }
-        .product-card:hover .product-image img { transform:scale(1.04); }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.06);
+        }
+
         .product-image .badge {
-            position:absolute;
-            top:12px;
-            left:12px;
-            font-size:10px;
-            font-weight:700;
-            text-transform:uppercase;
-            letter-spacing:0.5px;
-            padding:4px 14px;
-            border-radius:30px;
-            color:#fff;
-            z-index:1;
-            box-shadow:0 2px 8px rgba(0,0,0,0.15);
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 4px 16px;
+            border-radius: 30px;
+            color: #fff;
+            z-index: 1;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.20);
+            backdrop-filter: blur(4px);
         }
-        .badge-stok { background:#1a7a4a; }
-        .badge-habis { background:#94a3b8; }
-        .badge-hot { background:#f59e0b; }
 
-        .product-info { padding:16px 18px 18px; flex:1; display:flex; flex-direction:column; }
-        .product-name { font-size:15px; font-weight:700; color:#0b1a2a; line-height:1.3; margin-bottom:2px; transition: color 0.3s; }
-        .product-category { font-size:12px; color:#7a8a9a; font-weight:500; margin-bottom:8px; transition: color 0.3s; }
-        .product-price-row { display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; margin-top:auto; }
-        .product-price { font-size:20px; font-weight:800; color:#0b2b1e; transition: color 0.3s; }
-        .product-price .currency { font-size:13px; font-weight:600; color:#5e6f8d; transition: color 0.3s; }
-
-        .product-stok { font-size:12px; font-weight:600; display:flex; align-items:center; gap:6px; margin-top:6px; transition: color 0.3s; }
-        .product-stok .stok-angka { font-weight:700; }
-        .product-stok .stok-tersedia { color:#1a7a4a; }
-        .product-stok .stok-habis { color:#94a3b8; }
-
-        .product-action { display:flex; gap:8px; margin-top:14px; }
-        .btn-detail, .btn-wa {
-            flex:1;
-            padding:10px 0;
-            border:none;
-            border-radius:10px;
-            font-size:12px;
-            font-weight:700;
-            font-family:inherit;
-            cursor:pointer;
-            transition:0.2s;
-            text-align:center;
-            text-decoration:none;
-            letter-spacing:0.3px;
-            text-transform:uppercase;
+        .badge-stok {
+            background: #059669;
         }
-        .btn-detail { background:#eef1f5; color:#1a2634; }
-        .btn-detail:hover { background:#dce0e6; }
-        .btn-wa { background:#25d366; color:#fff; }
-        .btn-wa:hover { background:#1ebe5c; }
+        .badge-habis {
+            background: #6b7280;
+        }
+        .badge-hot {
+            background: #f59e0b;
+        }
 
-        /* ===== MODAL ===== */
+        .product-info {
+            padding: 18px 20px 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: #e5e7eb;
+            line-height: 1.3;
+            margin-bottom: 2px;
+            transition: color 0.3s;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-category {
+            font-size: 12px;
+            color: #9ca3af;
+            font-weight: 500;
+            margin-bottom: 8px;
+            transition: color 0.3s;
+            letter-spacing: 0.2px;
+        }
+
+        .product-price-row {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: auto;
+        }
+
+        .product-price {
+            font-size: 20px;
+            font-weight: 800;
+            color: #4ade80;
+            transition: color 0.3s;
+        }
+        .product-price .currency {
+            font-size: 13px;
+            font-weight: 600;
+            color: #9ca3af;
+            transition: color 0.3s;
+        }
+
+        .product-stok {
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 6px;
+            transition: color 0.3s;
+        }
+
+        .product-stok .stok-angka {
+            font-weight: 700;
+        }
+        .product-stok .stok-tersedia {
+            color: #4ade80;
+        }
+        .product-stok .stok-habis {
+            color: #6b7280;
+        }
+
+        .product-stok .stok-dot {
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            margin-right: 2px;
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        .product-stok .stok-dot.tersedia {
+            background: #4ade80;
+        }
+        .product-stok .stok-dot.habis {
+            background: #6b7280;
+            animation: none;
+        }
+
+        @keyframes pulse-dot {
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.4;
+                transform: scale(0.7);
+            }
+        }
+
+        .product-action {
+            display: flex;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .btn-detail,
+        .btn-wa {
+            flex: 1;
+            padding: 10px 0;
+            border: none;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s var(--transition-smooth);
+            text-align: center;
+            text-decoration: none;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-detail:active,
+        .btn-wa:active {
+            transform: scale(0.94);
+        }
+
+        .btn-detail {
+            background: #2a2a3e;
+            color: #e5e7eb;
+        }
+        .btn-detail:hover {
+            background: #3a3a52;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-wa {
+            background: #25d366;
+            color: #fff;
+        }
+        .btn-wa:hover {
+            background: #1ebe5c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);
+        }
+
+        /* ============================================================
+               MODAL
+               ============================================================ */
         .modal-overlay {
-            position:fixed;
-            top:0; left:0;
-            width:100%; height:100%;
-            background:rgba(0,0,0,0.55);
-            backdrop-filter:blur(8px);
-            display:none;
-            align-items:center;
-            justify-content:center;
-            z-index:1000;
-            padding:20px;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
-        .modal-overlay.active { display:flex; }
-        .modal {
-            background:#fff;
-            max-width:560px;
-            width:100%;
-            border-radius:24px;
-            padding:32px 30px 30px;
-            box-shadow:0 40px 80px rgba(0,0,0,0.3);
-            position:relative;
-            max-height:92vh;
-            overflow-y:auto;
-            transition: background 0.3s;
-        }
-        .modal-close {
-            position:absolute;
-            top:14px;
-            right:18px;
-            font-size:28px;
-            background:none;
-            border:none;
-            cursor:pointer;
-            color:#8a9bb5;
-            transition:0.2s;
-            line-height:1;
-        }
-        .modal-close:hover { color:#1a2634; }
-        .modal-image {
-            width:100%;
-            aspect-ratio:1/1;
-            object-fit:contain;
-            border-radius:12px;
-            background:#f8f9fb;
-            margin-bottom:16px;
-        }
-        .modal-name { font-size:22px; font-weight:800; color:#0b1a2a; margin-bottom:2px; transition: color 0.3s; }
-        .modal-category { font-size:14px; color:#8a9bb5; font-weight:500; margin-bottom:6px; transition: color 0.3s; }
-        .modal-price { font-size:28px; font-weight:800; color:#0b2b1e; margin:6px 0 12px; transition: color 0.3s; }
-        .modal-price .currency { font-size:16px; font-weight:600; color:#5e6f8d; transition: color 0.3s; }
-        .modal-stok { font-size:15px; font-weight:600; display:flex; align-items:center; gap:8px; margin-bottom:14px; transition: color 0.3s; }
-        .modal-stok .stok-angka { font-weight:800; }
-        .modal-stok .stok-tersedia { color:#1a7a4a; }
-        .modal-stok .stok-habis { color:#94a3b8; }
-        .modal-desc {
-            background:#f8f9fb;
-            border-radius:12px;
-            padding:14px 18px;
-            margin:12px 0 20px;
-            color:#1a2634;
-            font-size:14px;
-            line-height:1.7;
-            border-left:4px solid #1a7a4a;
-            transition: background 0.3s, color 0.3s, border-color 0.3s;
-        }
-        .modal-desc:empty::before { content:"Tidak ada keterangan tambahan."; color:#aab3c9; font-style:italic; }
-        .modal-wa {
-            display:inline-flex;
-            align-items:center;
-            gap:10px;
-            background:#25d366;
-            color:#fff;
-            font-weight:700;
-            font-size:14px;
-            padding:12px 30px;
-            border-radius:40px;
-            text-decoration:none;
-            transition:0.2s;
-            border:none;
-            cursor:pointer;
-            font-family:inherit;
-        }
-        .modal-wa:hover { background:#1ebe5c; }
-        .modal-copy-btn {
-            display:inline-flex;
-            align-items:center;
-            gap:8px;
-            background:#f0f2f5;
-            color:#1a2634;
-            font-weight:600;
-            font-size:13px;
-            padding:10px 20px;
-            border-radius:40px;
-            text-decoration:none;
-            transition:0.2s;
-            border:none;
-            cursor:pointer;
-            font-family:inherit;
-            margin-top:10px;
-        }
-        .modal-copy-btn:hover { background:#e2e6ec; }
 
-        /* ===== ORDER MODAL ===== */
-        .order-modal .modal {
-            max-width:600px;
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
         }
-        .order-modal .modal-title {
-            font-size:24px;
-            font-weight:800;
-            color:#0b2b1e;
-            margin-bottom:6px;
-            display:flex;
-            align-items:center;
-            gap:10px;
+
+        .modal-overlay.active .modal {
+            animation: modalIn 0.4s var(--transition-smooth) forwards;
+        }
+
+        @keyframes modalIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.92) translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .modal {
+            background: #1a1a2e;
+            max-width: 560px;
+            width: 100%;
+            border-radius: var(--radius-modal);
+            padding: 34px 32px 32px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.3);
+            position: relative;
+            max-height: 92vh;
+            overflow-y: auto;
+            transition: background 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .modal::-webkit-scrollbar {
+            width: 4px;
+        }
+        .modal::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .modal::-webkit-scrollbar-thumb {
+            background: rgba(74, 222, 128, 0.3);
+            border-radius: 10px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            font-size: 30px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #9ca3af;
+            transition: all 0.3s var(--transition-smooth);
+            line-height: 1;
+            padding: 4px;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            color: #e5e7eb;
+            transform: rotate(90deg);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .modal-image {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: contain;
+            border-radius: 14px;
+            background: #141425;
+            margin-bottom: 18px;
+            transition: transform 0.4s;
+        }
+
+        .modal-image:hover {
+            transform: scale(1.01);
+        }
+
+        .modal-name {
+            font-size: 22px;
+            font-weight: 800;
+            color: #e5e7eb;
+            margin-bottom: 2px;
             transition: color 0.3s;
         }
-        .order-modal .modal-title span { font-size:28px; }
-        .order-modal .modal-sub {
-            color:#5e6f8d;
-            font-size:14px;
-            margin-bottom:20px;
+
+        .modal-category {
+            font-size: 14px;
+            color: #9ca3af;
+            font-weight: 500;
+            margin-bottom: 6px;
             transition: color 0.3s;
         }
-        .order-modal .order-rules {
-            background: #fef9e7;
-            border-left:4px solid #f59e0b;
-            padding:14px 18px;
-            border-radius:8px;
-            margin-bottom:20px;
-            font-size:13px;
-            line-height:1.7;
-            color:#1a2634;
+
+        .modal-price {
+            font-size: 30px;
+            font-weight: 800;
+            color: #4ade80;
+            margin: 6px 0 12px;
+            transition: color 0.3s;
+        }
+        .modal-price .currency {
+            font-size: 16px;
+            font-weight: 600;
+            color: #9ca3af;
+            transition: color 0.3s;
+        }
+
+        .modal-stok {
+            font-size: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 14px;
+            transition: color 0.3s;
+        }
+        .modal-stok .stok-angka {
+            font-weight: 800;
+        }
+        .modal-stok .stok-tersedia {
+            color: #4ade80;
+        }
+        .modal-stok .stok-habis {
+            color: #6b7280;
+        }
+
+        .modal-stok .stok-dot {
+            display: inline-block;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            margin-right: 4px;
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+        .modal-stok .stok-dot.tersedia {
+            background: #4ade80;
+        }
+        .modal-stok .stok-dot.habis {
+            background: #6b7280;
+            animation: none;
+        }
+
+        .modal-desc {
+            background: #111122;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin: 12px 0 20px;
+            color: #d1d5db;
+            font-size: 14px;
+            line-height: 1.7;
+            border-left: 4px solid #4ade80;
             transition: background 0.3s, color 0.3s, border-color 0.3s;
         }
-        .order-modal .order-rules strong { color:#d97706; transition: color 0.3s; }
-        .order-modal .form-group {
-            margin-bottom:16px;
+
+        .modal-desc:empty::before {
+            content: "Tidak ada keterangan tambahan.";
+            color: #6b7280;
+            font-style: italic;
         }
-        .order-modal .form-group label {
-            display:block;
-            font-size:13px;
-            font-weight:600;
-            color:#1a2634;
-            margin-bottom:4px;
+
+        .modal-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 4px;
+        }
+
+        .modal-wa {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #25d366;
+            color: #fff;
+            font-weight: 700;
+            font-size: 14px;
+            padding: 12px 30px;
+            border-radius: var(--radius-btn);
+            text-decoration: none;
+            transition: all 0.3s var(--transition-smooth);
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .modal-wa:hover {
+            background: #1ebe5c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
+        }
+
+        .modal-copy-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #2a2a3e;
+            color: #e5e7eb;
+            font-weight: 600;
+            font-size: 13px;
+            padding: 12px 24px;
+            border-radius: var(--radius-btn);
+            text-decoration: none;
+            transition: all 0.3s var(--transition-smooth);
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .modal-copy-btn:hover {
+            background: #3a3a52;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+        }
+
+        /* ============================================================
+               ORDER MODAL
+               ============================================================ */
+        .order-modal .modal {
+            max-width: 600px;
+        }
+
+        .order-modal .modal-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #e5e7eb;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
             transition: color 0.3s;
         }
-        .order-modal .form-group label .required {
-            color:#dc3545;
-            margin-left:2px;
+
+        .order-modal .modal-title span {
+            font-size: 28px;
         }
+
+        .order-modal .modal-sub {
+            color: #9ca3af;
+            font-size: 14px;
+            margin-bottom: 20px;
+            transition: color 0.3s;
+        }
+
+        .order-modal .order-rules {
+            background: #1f1f30;
+            border-left: 4px solid #f59e0b;
+            padding: 16px 20px;
+            border-radius: 10px;
+            margin-bottom: 22px;
+            font-size: 13px;
+            line-height: 1.8;
+            color: #d1d5db;
+            transition: background 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        .order-modal .order-rules strong {
+            color: #fbbf24;
+            transition: color 0.3s;
+        }
+
+        .order-modal .form-group {
+            margin-bottom: 16px;
+        }
+
+        .order-modal .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #e5e7eb;
+            margin-bottom: 5px;
+            transition: color 0.3s;
+        }
+
+        .order-modal .form-group label .required {
+            color: #ef4444;
+            margin-left: 2px;
+        }
+
         .order-modal .form-group input,
         .order-modal .form-group textarea,
         .order-modal .form-group select {
-            width:100%;
-            padding:10px 14px;
-            border:1.5px solid #e2e6ec;
-            border-radius:10px;
-            font-size:14px;
-            font-family:inherit;
-            background:#f8f9fb;
-            transition:0.2s;
-            color:#1a2634;
-            outline:none;
+            width: 100%;
+            padding: 11px 16px;
+            border: 1.5px solid #2a2a3e;
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: inherit;
+            background: #111122;
+            transition: all 0.3s var(--transition-smooth);
+            color: #e5e7eb;
+            outline: none;
         }
+
         .order-modal .form-group input:focus,
         .order-modal .form-group textarea:focus,
         .order-modal .form-group select:focus {
-            border-color:#1a7a4a;
-            background:#fff;
-            box-shadow:0 0 0 3px rgba(26,122,74,0.12);
+            border-color: #4ade80;
+            background: #1a1a2e;
+            box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.06);
         }
+
         .order-modal .form-group textarea {
-            resize:vertical;
-            min-height:80px;
+            resize: vertical;
+            min-height: 80px;
         }
+
         .order-modal .form-row {
-            display:grid;
-            grid-template-columns:1fr 1fr;
-            gap:14px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
         }
-        .order-modal .btn-submit {
-            width:100%;
-            padding:14px;
-            background:linear-gradient(135deg, #f59e0b, #d97706);
-            color:#fff;
-            font-weight:700;
-            font-size:15px;
-            border:none;
-            border-radius:12px;
-            cursor:pointer;
-            transition:0.2s;
-            font-family:inherit;
-            box-shadow:0 4px 14px rgba(245,158,11,0.35);
-            margin-top:6px;
-        }
-        .order-modal .btn-submit:hover { transform:scale(1.01); opacity:0.9; }
-        .order-modal .btn-submit:disabled {
-            opacity:0.6;
-            cursor:not-allowed;
-            transform:none;
-        }
+
         .order-modal .form-hint {
-            font-size:12px;
-            color:#8a9bb5;
-            margin-top:4px;
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 4px;
             transition: color 0.3s;
         }
-        @media (max-width:520px) {
-            .order-modal .form-row { grid-template-columns:1fr; }
+
+        .order-modal .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #fff;
+            font-weight: 700;
+            font-size: 15px;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s var(--transition-smooth);
+            font-family: inherit;
+            box-shadow: 0 4px 20px rgba(245, 158, 11, 0.3);
+            margin-top: 8px;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* ===== WA FLOAT ===== */
+        .order-modal .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(245, 158, 11, 0.4);
+        }
+
+        .order-modal .btn-submit:active {
+            transform: scale(0.97);
+        }
+
+        .order-modal .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* ============================================================
+               WA FLOAT
+               ============================================================ */
         .wa-float {
-            position:fixed;
-            bottom:24px;
-            right:24px;
-            background:#25d366;
-            color:#fff;
-            width:58px;
-            height:58px;
-            border-radius:50%;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            box-shadow:0 6px 24px rgba(37,211,102,0.4);
-            transition:transform 0.2s;
-            text-decoration:none;
-            z-index:999;
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            background: #25d366;
+            color: #fff;
+            width: 62px;
+            height: 62px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 28px rgba(37, 211, 102, 0.35);
+            transition: all 0.3s var(--transition-smooth);
+            text-decoration: none;
+            z-index: 999;
+            animation: waFloat 3s ease-in-out infinite;
         }
-        .wa-float:hover { transform:scale(1.08); }
-        .wa-float svg { width:30px; height:30px; fill:#fff; }
 
-        /* ===== FOOTER ===== */
+        .wa-float:hover {
+            transform: scale(1.10);
+            box-shadow: 0 10px 40px rgba(37, 211, 102, 0.5);
+        }
+
+        .wa-float svg {
+            width: 32px;
+            height: 32px;
+            fill: #fff;
+        }
+
+        @keyframes waFloat {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+
+        .wa-float .pulse-ring {
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            border: 2px solid rgba(37, 211, 102, 0.25);
+            animation: pulseRing 2.5s ease-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes pulseRing {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.6);
+                opacity: 0;
+            }
+        }
+
+        /* ============================================================
+               FOOTER
+               ============================================================ */
         .footer {
-            margin-top:48px;
-            padding:28px 20px;
-            border-radius:16px;
-            background:rgba(255,255,255,0.06);
-            backdrop-filter:blur(8px);
-            border:1px solid rgba(255,255,255,0.08);
-            text-align:center;
-            font-size:13px;
-            color:rgba(255,255,255,0.8);
+            margin-top: 52px;
+            padding: 32px 24px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            text-align: center;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
             transition: background 0.3s, border-color 0.3s, color 0.3s;
         }
-        .footer strong { color:#fff; transition: color 0.3s; }
-        .footer .wa-link { color:#7ae9c0; font-weight:600; text-decoration:none; transition: color 0.3s; }
-        .footer .wa-link:hover { text-decoration:underline; color:#aaffdd; }
-        .footer .jam-footer {
-            display:block;
-            margin-top:4px;
-            font-size:13px;
-            color:rgba(255,255,255,0.7);
-            letter-spacing:0.5px;
-        }
-        .footer .jam-footer .jam-icon { font-size:14px; }
 
-        /* ===== RESPONSIVE ===== */
-        @media (max-width:768px) {
-            .controls { flex-direction:column; align-items:stretch; padding:14px 16px; }
-            .controls-left { flex-direction:column; align-items:stretch; }
-            .controls-right { justify-content:center; }
-            .search-box { max-width:100%; }
-            .filter-group { justify-content:center; }
-            .product-grid { grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:16px; }
-            .product-name { font-size:13px; }
-            .product-price { font-size:17px; }
-            .modal { padding:24px 18px; }
-            .modal-name { font-size:19px; }
-            .modal-price { font-size:24px; }
-            .header .logo { font-size:26px; }
-            .product-number { font-size:10px; padding:2px 8px; }
-            .header { padding:24px 16px; }
-            .header .btn-group { flex-direction:column; align-items:center; }
-            .header .wa-link, .header .order-link { width:100%; justify-content:center; max-width:320px; }
+        .footer strong {
+            color: #fff;
+            transition: color 0.3s;
         }
-        @media (max-width:480px) {
-            .product-grid { grid-template-columns:1fr 1fr; gap:12px; }
-            .product-info { padding:12px 12px 14px; }
-            .product-action { flex-direction:column; gap:6px; }
-            .btn-detail, .btn-wa { padding:8px 0; font-size:11px; }
-            .filter-group .filter-btn { padding:6px 12px; font-size:10px; }
-            .filter-select { font-size:10px; padding:6px 12px; }
-            .header { padding:20px 12px; }
-            .header .logo { font-size:22px; }
-            .product-number { font-size:9px; padding:1px 7px; top:6px; right:6px; }
+
+        .footer .wa-link {
+            color: #7ae9c0;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer .wa-link:hover {
+            text-decoration: underline;
+            color: #aaffdd;
+        }
+
+        .footer .jam-footer {
+            display: block;
+            margin-top: 4px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 0.5px;
+        }
+
+        .footer .jam-footer .jam-icon {
+            font-size: 14px;
+        }
+
+        /* ============================================================
+               RESPONSIVE
+               ============================================================ */
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 16px 18px;
+            }
+            .controls-left {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .controls-right {
+                justify-content: center;
+            }
+            .search-box {
+                max-width: 100%;
+            }
+            .filter-group {
+                justify-content: center;
+            }
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+                gap: 18px;
+            }
+            .product-name {
+                font-size: 13px;
+            }
+            .product-price {
+                font-size: 17px;
+            }
+            .modal {
+                padding: 26px 20px 24px;
+            }
+            .modal-name {
+                font-size: 19px;
+            }
+            .modal-price {
+                font-size: 24px;
+            }
+            .header .logo {
+                font-size: 26px;
+            }
+            .product-number {
+                font-size: 10px;
+                padding: 2px 10px;
+                top: 8px;
+                right: 8px;
+            }
+            .header {
+                padding: 24px 16px 20px;
+            }
+            .header .btn-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            .header .btn-group .wa-link,
+            .header .btn-group .order-link {
+                width: 100%;
+                justify-content: center;
+                max-width: 320px;
+            }
+            .theme-toggle {
+                top: 14px;
+                right: 14px;
+                width: 42px;
+                height: 42px;
+                font-size: 18px;
+            }
+            .order-modal .form-row {
+                grid-template-columns: 1fr;
+            }
+            .modal-actions {
+                flex-direction: column;
+            }
+            .modal-wa {
+                flex: none;
+                width: 100%;
+            }
+            .modal-copy-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            .wa-float {
+                width: 54px;
+                height: 54px;
+                bottom: 20px;
+                right: 20px;
+            }
+            .wa-float svg {
+                width: 28px;
+                height: 28px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .product-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 14px;
+            }
+            .product-info {
+                padding: 14px 14px 16px;
+            }
+            .product-action {
+                flex-direction: column;
+                gap: 6px;
+            }
+            .btn-detail,
+            .btn-wa {
+                padding: 8px 0;
+                font-size: 10px;
+            }
+            .filter-group .filter-btn {
+                padding: 6px 12px;
+                font-size: 10px;
+            }
+            .filter-select {
+                font-size: 10px;
+                padding: 6px 12px;
+                padding-right: 28px;
+            }
+            .header {
+                padding: 18px 12px 16px;
+            }
+            .header .logo {
+                font-size: 22px;
+            }
+            .header .sub {
+                font-size: 12px;
+            }
+            .header .info-badge {
+                font-size: 11px;
+                padding: 4px 12px;
+            }
+            .product-number {
+                font-size: 8px;
+                padding: 1px 7px;
+                top: 6px;
+                right: 6px;
+            }
+            .modal {
+                padding: 20px 16px 18px;
+                border-radius: 20px;
+            }
+            .modal-name {
+                font-size: 17px;
+            }
+            .modal-price {
+                font-size: 22px;
+            }
+            .modal-desc {
+                font-size: 13px;
+                padding: 12px 14px;
+            }
+            .order-modal .modal-title {
+                font-size: 20px;
+            }
+            .order-modal .order-rules {
+                font-size: 12px;
+                padding: 12px 14px;
+            }
+            .controls {
+                padding: 12px 14px;
+                gap: 10px;
+            }
+            .search-box input {
+                padding: 9px 12px 9px 38px;
+                font-size: 13px;
+            }
+            .search-box .icon {
+                left: 12px;
+                font-size: 14px;
+            }
+            .wa-float {
+                width: 48px;
+                height: 48px;
+                bottom: 16px;
+                right: 16px;
+            }
+            .wa-float svg {
+                width: 24px;
+                height: 24px;
+            }
+            .footer {
+                padding: 20px 16px;
+                font-size: 12px;
+                margin-top: 32px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .product-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            .product-info {
+                padding: 10px 10px 12px;
+            }
+            .product-name {
+                font-size: 11px;
+            }
+            .product-price {
+                font-size: 14px;
+            }
+            .product-category {
+                font-size: 10px;
+            }
+            .product-stok {
+                font-size: 10px;
+            }
+            .btn-detail,
+            .btn-wa {
+                font-size: 9px;
+                padding: 6px 0;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
+
+        <!-- ===== THEME TOGGLE ===== -->
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle tema">
+            <span class="icon-sun">☀️</span>
+            <span class="icon-moon">🌙</span>
+        </button>
+
         <!-- ===== HEADER ===== -->
         <header class="header">
             <div class="logo">Pasir<span>Pogor</span>Cell</div>
             <p class="sub">Elektronik · Aksesoris · Alat Tulis · Perlengkapan Kantor</p>
             <div class="info-row">
-                <span class="info-badge"><span class="jam-icon">🕐</span> 06.30 - 21.30 WIB</span>
+                <span class="info-badge"><span class="jam-icon">🕐</span> 06.30 – 21.30 WIB</span>
                 <span class="info-badge">📱 0838-4484-3020</span>
             </div>
             <div class="btn-group">
@@ -1058,7 +2064,7 @@
                     <button class="filter-btn" data-filter="Elektronik">Elektronik</button>
                     <button class="filter-btn" data-filter="Aksesoris">Aksesoris</button>
                     <button class="filter-btn" data-filter="Alat Tulis">Alat Tulis</button>
-                    <button class="filter-btn" data-filter="Perlengkapan Kantor">Perlengkapan</button>
+                    <button class="filter-btn" data-filter="Perlengkapan">Perlengkapan</button>
                 </div>
             </div>
             <div class="controls-right">
@@ -1075,21 +2081,22 @@
             </div>
         </div>
 
-        <div class="result-info" id="resultInfo">Menampilkan 0 barang</div>
+        <div class="result-info" id="resultInfo">Menampilkan <span id="resultCount">0</span> barang</div>
 
         <!-- ===== PRODUCT GRID ===== -->
         <div class="product-grid" id="productGrid"></div>
 
         <!-- ===== FOOTER ===== -->
         <footer class="footer">
-            <strong>PasirPogorCell</strong> — 
+            <strong>PasirPogorCell</strong> —
             WA: <a href="https://wa.me/6283844843020" target="_blank" class="wa-link">0838-4484-3020</a>
-            <span class="jam-footer"><span class="jam-icon">🕐</span> Jam Operasional: 06.30 - 21.30 WIB</span>
+            <span class="jam-footer"><span class="jam-icon">🕐</span> Jam Operasional: 06.30 – 21.30 WIB</span>
         </footer>
     </div>
 
     <!-- ===== WA FLOAT ===== -->
     <a href="https://wa.me/6283844843020" target="_blank" class="wa-float" aria-label="Hubungi WhatsApp">
+        <span class="pulse-ring"></span>
         <svg viewBox="0 0 24 24"><path d="M12.032 21.965c-2.007 0-3.866-.61-5.398-1.65l-4.23 1.388 1.426-4.148c-1.2-1.723-1.916-3.822-1.916-6.088 0-5.854 4.763-10.618 10.618-10.618 5.854 0 10.618 4.763 10.618 10.618 0 5.855-4.764 10.618-10.618 10.618zm0-19.236c-4.755 0-8.618 3.864-8.618 8.618 0 1.782.543 3.434 1.47 4.805l-.947 2.756 2.827-.928c1.314.846 2.904 1.344 4.618 1.344 4.755 0 8.618-3.864 8.618-8.618 0-4.754-3.863-8.618-8.618-8.618zm4.998 11.493c-.146-.246-.537-.394-.922-.437-.384-.043-.884-.04-1.142.054-.258.095-.462.338-.568.588-.106.25-.406.434-.69.324-.284-.11-1.16-.427-2.218-1.37-.82-.732-1.375-1.634-1.536-1.91-.16-.276-.017-.426.12-.563.123-.123.274-.321.411-.482.138-.16.184-.274.276-.457.092-.183.046-.343-.023-.48-.069-.137-.6-1.444-.822-1.978-.216-.52-.438-.433-.6-.44-.154-.008-.33-.01-.506-.01-.176 0-.462.066-.704.33-.242.264-.924.903-.924 2.203 0 1.3.946 2.557 1.078 2.734.132.177 1.86 2.84 4.506 3.984.63.272 1.12.435 1.504.556.632.201 1.207.173 1.662.105.507-.076 1.562-.638 1.782-1.254.22-.616.22-1.144.154-1.254z"/></svg>
     </a>
 
@@ -1103,8 +2110,10 @@
             <div class="modal-price" id="modalPrice"></div>
             <div class="modal-stok" id="modalStok"></div>
             <div class="modal-desc" id="modalDescription"></div>
-            <a href="#" id="modalWaLink" target="_blank" class="modal-wa">💬 Tanya via WhatsApp</a>
-            <button class="modal-copy-btn" id="modalCopyBtn">📋 Salin Nama Barang</button>
+            <div class="modal-actions">
+                <a href="#" id="modalWaLink" target="_blank" class="modal-wa">💬 Tanya via WhatsApp</a>
+                <button class="modal-copy-btn" id="modalCopyBtn">📋 Salin Nama</button>
+            </div>
         </div>
     </div>
 
@@ -1114,10 +2123,10 @@
             <button class="modal-close" id="orderModalClose">&times;</button>
             <div class="modal-title"><span>📦</span> Pesan Barang</div>
             <div class="modal-sub">Mau pesan barang yang tidak tersedia? Kami bantu carikan!</div>
-            
+
             <div class="order-rules">
                 <strong>📋 Ketentuan Pre-Order:</strong><br />
-                • ⏳ Waktu tunggu <strong>3-7 hari</strong> setelah order<br />
+                • ⏳ Waktu tunggu <strong>3–7 hari</strong> setelah order<br />
                 • 💰 Pembayaran <strong>di muka (full)</strong> — tunai atau transfer<br />
                 • ✅ Garansi barang jika tidak sesuai — <strong>tanpa repot</strong> mengembalikan sendiri<br />
                 • 🛡️ Jaminan kualitas dari PasirPogorCell<br />
@@ -1174,83 +2183,117 @@
 
     <script>
         // ============================================================
-        // 0. SINKRONISASI TEMA DARI LOCALSTORAGE
+        // 1. THEME
         // ============================================================
-        document.addEventListener('DOMContentLoaded', function() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme) {
-                document.documentElement.setAttribute('data-theme', savedTheme);
+        (function initTheme() {
+            const saved = localStorage.getItem('theme');
+            const doc = document.documentElement;
+            if (saved) {
+                doc.setAttribute('data-theme', saved);
             } else {
-                // Jika belum ada, default ke terang (light)
-                document.documentElement.setAttribute('data-theme', 'light');
+                doc.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
             }
+        })();
+
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', function() {
+            const doc = document.documentElement;
+            const current = doc.getAttribute('data-theme');
+            const next = current === 'light' ? 'dark' : 'light';
+            doc.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
         });
 
-const PRODUK_IMAGES = {
-    "Kipas Mini MIISOO": "https://cdn.fbsbx.com/v/t65.102178-21/752619818_1351645757074153_8669677652453058778_n.jpg/14_Miisoo_Mini_Fan_Portable.jpg?_nc_ht=cdn.fbsbx.com&_nc_ohc=QRewnyb3kCEQ7kNvwGpV5-5&sdl=0&ccb=14-4&oh=00_AQCPfXb1PrNeGouOABW6eFkAIuZJk-kz1pDMKgle0gld4A&oe=6A5F79F5&_nc_sid=4ee932",
-    "Baterai ABC Biru Size AA 1.5V": "https://cdn.fbsbx.com/v/t65.102178-21/753236969_1736613104183256_5101159916234007196_n.jpg/24_ABC_Dry_Cell_AA.jpg?_nc_ht=cdn.fbsbx.com&_nc_ohc=vnl1m3n-7B8Q7kNvwHYdA6O&sdl=0&ccb=14-4&oh=00_AQB1Bteswu8l9bIU3E5iOmlOz3FHWF71bCacwArH2W9n-g&oe=6A5F7B24&_nc_sid=4ee932",
-    "Baterai ABC AAA (A3) (harga per 1pcs)": "https://cdn.fbsbx.com/v/t65.102178-21/753105084_1551643723069544_4187161875807488458_n.jpg/15_Baterai_ABC_AAA.jpg?_nc_ht=cdn.fbsbx.com&_nc_ohc=rRDOhj4hCzkQ7kNvwEdj-kA&sdl=0&ccb=14-4&oh=00_AQC819NCudVHiiefpsvnRoxnEax4ozbGtYWYRzNtS-kDMA&oe=6A5F4A29&_nc_sid=4ee932",
-    "Charger Robot Micro USB": "https://cdn.fbsbx.com/v/t65.102178-21/753336807_1592962435733356_1463354232724509963_n.jpg/03_Robot_Charger_Power_QC3.jpg?_nc_ht=cdn.fbsbx.com&_nc_ohc=uRCqSHLq71oQ7kNvwHT3C2-&sdl=0&ccb=14-4&oh=00_AQBStfvkG-6ojaryI4ohoP8EGB4-wzd7l91cjiTqbHixUw&oe=6A5F6993&_nc_sid=4ee932",
-    "Kabel Micro USB KIVEE": "https://cdn.fbsbx.com/v/t65.102178-21/753204308_1033133359271461_2359818008517819957_n.jpg/12_Kivee_Micro_USB_100cm.jpg?_nc_ht=cdn.fbsbx.com&_nc_ohc=NbEEGuj_HXcQ7kNvwGMzstS&sdl=0&ccb=14-4&oh=00_AQBM9LbUIBbxbtNgJSIpJTaRdaFxaCqFn3HiLh-J7AqMYQ&oe=6A5F5605&_nc_sid=4ee932",
-    "Pulpen Amilio 0.5mm": "https://cdn.fbsbx.com/v/t65.102178-21/753196584_1361406385951633_2771720418108439009_n.jpg/01_Aimilo_Pulpen_Gel_0.5mm.jpg?_nc_ht=cdn.fbsbx.com&_nc_ohc=bIYEYIdRBF4Q7kNvwGSPFcD&sdl=0&ccb=14-4&oh=00_AQDM65Xf84NEcnmWJ7xBI7Mm0BciON0aOD1hjJ5Hr93oYQ&oe=6A5F6125&_nc_sid=4ee932",
-    "Pulpen Joyko 0.5mm": "https://cdn.fbsbx.com/v/t65.102178-21/753224892_856251734027828_1929638684566252335_n.jpg/02_Joyko_Gel_Pen_JK-100NT.jpg?_nc_ht=cdn.fbsbx.com&_nc_ohc=m5QgiL4kMmMQ7kNvwE1OKKa&sdl=0&ccb=14-4&oh=00_AQDXiHkRqjF_hh2H4a-2JXhAJrLrtW2FYNgJQwooXBVGrQ&oe=6A5F5EFF&_nc_sid=4ee932",
-    "JOYKO Pensil P-88 2B": "https://cdn.fbsbx.com/v/t65.102178-21/753540722_1007096098874614_5760359369050001460_n.jpg/21_Joyko_Pencil_P-88_2B.jpg?_nc_ht=cdn.fbsbx.com&_nc_ohc=t_YiOKcwzBMQ7kNvwE-Vof5&sdl=0&ccb=14-4&oh=00_AQD2DQuOM3KlzlP7hkiNcegx5YKFcKdAikpBTBjAam9_ug&oe=6A5F6EA7&_nc_sid=4ee932",
-    "Pensil Warna JOYKO (12 warna)": "https://cdn.fbsbx.com/v/t65.102178-21/753259972_1751040426027327_315670575726886709_n.jpg/09_Joyko_Color_Pencil_CP-0133-12.jpg?_nc_ht=cdn.fbsbx.com&_nc_ohc=hpzh8aQ4WZ0Q7kNvwHe9akJ&sdl=0&ccb=14-4&oh=00_AQByTW_m4XEwyt4CgelzLxJNrSL8fdJBmuoS10hcONhekQ&oe=6A5F57EC&_nc_sid=4ee932",
-    "JOYKO Penanda Berwarna Highlighter HL-88": "https://cdn.fbsbx.com/v/t65.102178-21/752833114_1009591945244571_5480811426886058629_n.jpg/22_Joyko_Highlighter_HL-88.jpg?_nc_ht=cdn.fbsbx.com&_nc_ohc=75njrX5bUmUQ7kNvwE4SApQ&sdl=0&ccb=14-4&oh=00_AQDaVCjQHCIrXcH6aYxBPqzkvX40dTGAgSxfAj42N3PEMA&oe=6A5F4AF3&_nc_sid=4ee932",
-    "Buku SIDU SKOLA 1 pack (10 buku)": "https://cdn.fbsbx.com/v/t65.102178-21/753259972_1395368372436137_1935229510110530805_n.jpg/13_SiDU_Buku_Tulis_Skola_A5.jpg?_nc_ht=cdn.fbsbx.com&_nc_ohc=dBz7bppwAIkQ7kNvwGyGTFf&sdl=0&ccb=14-4&oh=00_AQAURBov1jrNuspu-bXCTPj6mSvk1rtsERELifpVhPBHJA&oe=6A5F63FA&_nc_sid=4ee932",
-    "Rautan pensil, JOYKO": "https://cdn.fbsbx.com/v/t65.102178-21/753204308_4640219029633318_1318305175441342944_n.jpg/20_Joyko_Sharpener_SP-362PTL.jpg?_nc_ht=cdn.fbsbx.com&_nc_ohc=UHOxWgoaYAIQ7kNvwEL_rz7&sdl=0&ccb=14-4&oh=00_AQCS2_ETvEAPc7X72QSD0dICkScCbd9KARs7W_Txhwu2WA&oe=6A5F7CC2&_nc_sid=4ee932",
-    "Pulpen Joyko i-Tech 2, 0.28mm": "https://cdn.fbsbx.com/v/t65.102178-21/753150138_1521703185731522_3416576820631829680_n.jpg/16_Joyko_Gel_Pen_GP-266_iTech2.jpg?_nc_ht=cdn.fbsbx.com&_nc_ohc=YV1YtKKJXpcQ7kNvwHEPvme&sdl=0&ccb=14-4&oh=00_AQDrIfnQDCu1nRcPlThB3ZgjpnG6im7MSPVVtKJ6fNFLFA&oe=6A5F51EA&_nc_sid=4ee932",
-    "Penghapus Joyko": "https://cdn.fbsbx.com/v/t65.102178-21/753032393_1987621951731003_2190440164071340875_n.jpg/18_Joyko_Eraser_ER-30W.jpg?_nc_ht=cdn.fbsbx.com&_nc_ohc=MwdA9Nc2p60Q7kNvwGmQy8D&sdl=0&ccb=14-4&oh=00_AQDHg_19Ebw7Yje-c6TE_xjg0YLV4diDeqq11OgEm51DkA&oe=6A5F77E8&_nc_sid=4ee932",
-    "Buku CAMPUS 1 pack (10 buku)": "https://cdn.fbsbx.com/v/t65.102178-21/753163917_1570102197976107_6093816675336362914_n.jpg/19_Favourite_Campus_Pouch.jpg?_nc_ht=cdn.fbsbx.com&_nc_ohc=bjE_UThR184Q7kNvwG7s9_J&sdl=0&ccb=14-4&oh=00_AQD7buMM7EiywipxZ5USH-t2rHz-SZmCbhrvuR_tX6v-PA&oe=6A5F5CCE&_nc_sid=4ee932",
-    "Lem Korea": "https://cdn.fbsbx.com/v/t65.102178-21/753224893_1582737433451932_9202961788043273369_n.jpg/04_Lem_Handsome_Cairan_20gr.jpg?_nc_ht=cdn.fbsbx.com&_nc_ohc=KBM-5kstVWkQ7kNvwFqmn_4&sdl=0&ccb=14-4&oh=00_AQBeBU7mZhevZuWWMQdv6Hi8wjqazx2Tbc0ySHkCp-LpuA&oe=6A5F5B19&_nc_sid=4ee932",
-    "Staples Joyko": "https://cdn.fbsbx.com/v/t65.102178-21/753169401_1372379364837401_4467418484324565033_n.jpg/05_Joyko_Stapler_HD-879R2.jpg?_nc_ht=cdn.fbsbx.com&_nc_ohc=cZyKeSFJMl0Q7kNvwHFQ_Jz&sdl=0&ccb=14-4&oh=00_AQD1GmbjuhMHmct1f18r6nyZpKDXZJYDvh_H5f4ykaeDeA&oe=6A5F576B&_nc_sid=4ee932",
-    "Lakban Bening": "https://cdn.fbsbx.com/v/t65.102178-21/751783697_2049010452400538_8810960273749057250_n.jpg/11_Lakban_Fragile.jpg?_nc_ht=cdn.fbsbx.com&_nc_ohc=zOmtzCNReZEQ7kNvwHRm3Nl&sdl=0&ccb=14-4&oh=00_AQDM2FlC9IkvBdY4jzuhIb1TdOeYIvUBm_EZI0FtRh2G3Q&oe=6A5F6823&_nc_sid=4ee932",
-    "Gunting Montana STI 180": "https://cdn.fbsbx.com/v/t65.102178-21/753032394_1923661084976640_1684633034120261911_n.jpg/06_Gunting_Montana_STI_180.jpg?_nc_ht=cdn.fbsbx.com&_nc_ohc=d2r9gfEKcbUQ7kNvwFmLsHi&sdl=0&ccb=14-4&oh=00_AQDz46L_2u-2CXsxT1Xeem3fJzSrgOqXFSt2piCA39P8jA&oe=6A5F7995&_nc_sid=4ee932",
-    "Gunting Montana STI 165": "https://cdn.fbsbx.com/v/t65.102178-21/753105084_2135888756956940_8204960693913645418_n.jpg/07_Gunting_Montana_STI_165.jpg?_nc_ht=cdn.fbsbx.com&_nc_ohc=OF2d78eJOFQQ7kNvwFZbabI&sdl=0&ccb=14-4&oh=00_AQAo89UMO9kg66Gj3WfT_Od0wlcYxmz-DdCUKlhwuVjY2w&oe=6A5F6827&_nc_sid=4ee932",
-    "Gunting Montana STI 145": "https://cdn.fbsbx.com/v/t65.102178-21/740276385_1048846411433745_570386460277189869_n.jpg/08_Gunting_Montana_STI_145.jpg?_nc_ht=cdn.fbsbx.com&_nc_ohc=GodNdz7WZPMQ7kNvwEzxEfD&sdl=0&ccb=14-4&oh=00_AQDz6CH9crOrQaF0HbZlf_xXlSAPW3uJ2G5MUdgufOOydg&oe=6A5F7378&_nc_sid=4ee932",
-    "Montana Staples No.10 RS-10": "https://cdn.fbsbx.com/v/t65.102178-21/740425377_1945374829454117_4431441657913863833_n.jpg/10_Montana_Staples_No10.jpg?_nc_ht=cdn.fbsbx.com&_nc_ohc=xJRXpIEGgUMQ7kNvwHiYdRE&sdl=0&ccb=14-4&oh=00_AQBpAClNPgXuXjjug-5WnWmkPgy4tPUeOzqkh3uPS-WFcQ&oe=6A5F7A07&_nc_sid=4ee932",
-    "Lakban Hitam": "https://cdn.fbsbx.com/v/t65.102178-21/753281782_1524882425799644_7059098308968014225_n.jpg/17_Goldtape_Vinyl_Tape_Hitam.jpg?_nc_ht=cdn.fbsbx.com&_nc_ohc=8Vrwznyq8PMQ7kNvwF4tYqf&sdl=0&ccb=14-4&oh=00_AQBK8pvSj0Jlv-Jqc4c2nuzpZJyDrUVYGLE7LK3IeYcmPA&oe=6A5F5766&_nc_sid=4ee932",
-    "Lakban Coklat 45mm x 100 Yard": "https://cdn.fbsbx.com/v/t65.102178-21/739930826_1009030771963148_4357835639546162295_n.jpg/25_Giant_Tape_Bening.jpg?_nc_ht=cdn.fbsbx.com&_nc_ohc=ths5Z1ZMEGkQ7kNvwGgbHWZ&sdl=0&ccb=14-4&oh=00_AQCOHEZdGtgDknWZ_BsmlTkeaeVpCg0vecgmVmo0QzXSlQ&oe=6A5F50D7&_nc_sid=4ee932",
-    "Refill Staples MONTANA": "https://cdn.fbsbx.com/v/t65.102178-21/740425377_1945374829454117_4431441657913863833_n.jpg/10_Montana_Staples_No10.jpg?_nc_ht=cdn.fbsbx.com&_nc_ohc=xJRXpIEGgUMQ7kNvwHiYdRE&sdl=0&ccb=14-4&oh=00_AQBpAClNPgXuXjjug-5WnWmkPgy4tPUeOzqkh3uPS-WFcQ&oe=6A5F7A07&_nc_sid=4ee932",
-    "Deli I-Select Spidol Warna 12 Warna": "https://cdn.fbsbx.com/v/t65.102178-21/753150138_1699209124808260_1320579177750872498_n.jpg/23_Deli_Felt_Pen_UC150.jpg?_nc_ht=cdn.fbsbx.com&_nc_ohc=MKu-0xlXIwcQ7kNvwHBSBbk&sdl=0&ccb=14-4&oh=00_AQCYNcgH4dPiIZLLiB9Bnej0SE7DQZ31zoMWFMds-uxXJw&oe=6A5F749A&_nc_sid=4ee932"
-};
+        // ============================================================
+        // 2. DATA
+        // ============================================================
+        const PRODUK_IMAGES = {
+            "Kipas Mini MIISOO": "https://raw.githubusercontent.com/adenaskolani5-jpg/PasirPogorCell/cc5ab3513a543ffac80fef3175a0ff951366e6c5/14_Miisoo_Mini_Fan_Portable.jpg",
+            "Baterai ABC Biru Size AA 1.5V": "https://raw.githubusercontent.com/adenaskolani5-jpg/PasirPogorCell/cc5ab3513a543ffac80fef3175a0ff951366e6c5/24_ABC_Dry_Cell_AA.jpg",
+            "Baterai ABC AAA (A3) (harga per 1pcs)": "https://raw.githubusercontent.com/adenaskolani5-jpg/PasirPogorCell/cc5ab3513a543ffac80fef3175a0ff951366e6c5/15_Baterai_ABC_AAA.jpg",
+            "Charger Robot Micro USB": "https://raw.githubusercontent.com/adenaskolani5-jpg/PasirPogorCell/cc5ab3513a543ffac80fef3175a0ff951366e6c5/03_Robot_Charger_Power_QC3.jpg",
+            "Kabel Micro USB KIVEE": "https://raw.githubusercontent.com/adenaskolani5-jpg/PasirPogorCell/cc5ab3513a543ffac80fef3175a0ff951366e6c5/12_Kivee_Micro_USB_100cm.jpg",
+            "Pulpen Amilio 0.5mm": "https://raw.githubusercontent.com/adenaskolani5-jpg/PasirPogorCell/cc5ab3513a543ffac80fef3175a0ff951366e6c5/01_Aimilo_Pulpen_Gel_0.5mm.jpg",
+            "Pulpen Joyko 0.5mm": "https://raw.githubusercontent.com/adenaskolani5-jpg/PasirPogorCell/cc5ab3513a543ffac80fef3175a0ff951366e6c5/02_Joyko_Gel_Pen_JK-100NT.jpg",
+            "JOYKO Pensil P-88 2B": "https://raw.githubusercontent.com/adenaskolani5-jpg/PasirPogorCell/cc5ab3513a543ffac80fef3175a0ff951366e6c5/21_Joyko_Pencil_P-88_2B.jpg",
+            "Pensil Warna JOYKO (12 warna)": "https://raw.githubusercontent.com/adenaskolani5-jpg/PasirPogorCell/cc5ab3513a543ffac80fef3175a0ff951366e6c5/09_Joyko_Color_Pencil_CP-0133-12.jpg",
+            "JOYKO Penanda Berwarna Highlighter HL-88": "https://raw.githubusercontent.com/adenaskolani5-jpg/PasirPogorCell/cc5ab3513a543ffac80fef3175a0ff951366e6c5/22_Joyko_Highlighter_HL-88.jpg",
+            "Buku SIDU SKOLA 1 pack (10 buku)": "https://raw.githubusercontent.com/adenaskolani5-jpg/PasirPogorCell/cc5ab3513a543ffac80fef3175a0ff951366e6c5/13_SiDU_Buku_Tulis_Skola_A5.jpg",
+            "Rautan pensil, JOYKO": "https://raw.githubusercontent.com/adenaskolani5-jpg/PasirPogorCell/cc5ab3513a543ffac80fef3175a0ff951366e6c5/20_Joyko_Sharpener_SP-362PTL.jpg",
+            "Pulpen Joyko i-Tech 2, 0.28mm": "https://raw.githubusercontent.com/adenaskolani5-jpg/PasirPogorCell/cc5ab3513a543ffac80fef3175a0ff951366e6c5/16_Joyko_Gel_Pen_GP-266_iTech2.jpg",
+            "Penghapus Joyko": "https://raw.githubusercontent.com/adenaskolani5-jpg/PasirPogorCell/cc5ab3513a543ffac80fef3175a0ff951366e6c5/18_Joyko_Eraser_ER-30W.jpg",
+            "Buku CAMPUS 1 pack (10 buku)": "https://raw.githubusercontent.com/adenaskolani5-jpg/PasirPogorCell/cc5ab3513a543ffac80fef3175a0ff951366e6c5/19_Favourite_Campus_Pouch.jpg",
+            "Lem Korea": "https://raw.githubusercontent.com/adenaskolani5-jpg/PasirPogorCell/cc5ab3513a543ffac80fef3175a0ff951366e6c5/04_Lem_Handsome_Cairan_20gr.jpg",
+            "Staples Joyko": "https://raw.githubusercontent.com/adenaskolani5-jpg/PasirPogorCell/cc5ab3513a543ffac80fef3175a0ff951366e6c5/05_Joyko_Stapler_HD-879R2.jpg",
+            "Lakban Bening": "https://raw.githubusercontent.com/adenaskolani5-jpg/PasirPogorCell/cc5ab3513a543ffac80fef3175a0ff951366e6c5/11_Lakban_Fragile.jpg",
+            "Gunting Montana STI 180": "https://raw.githubusercontent.com/adenaskolani5-jpg/PasirPogorCell/cc5ab3513a543ffac80fef3175a0ff951366e6c5/06_Gunting_Montana_STI_180.jpg",
+            "Gunting Montana STI 165": "https://raw.githubusercontent.com/adenaskolani5-jpg/PasirPogorCell/cc5ab3513a543ffac80fef3175a0ff951366e6c5/07_Gunting_Montana_STI_165.jpg",
+            "Gunting Montana STI 145": "https://raw.githubusercontent.com/adenaskolani5-jpg/PasirPogorCell/cc5ab3513a543ffac80fef3175a0ff951366e6c5/08_Gunting_Montana_STI_145.jpg",
+            "Refill Staples MONTANA": "https://raw.githubusercontent.com/adenaskolani5-jpg/PasirPogorCell/cc5ab3513a543ffac80fef3175a0ff951366e6c5/10_Montana_Staples_No10.jpg",
+            "Lakban Hitam": "https://raw.githubusercontent.com/adenaskolani5-jpg/PasirPogorCell/cc5ab3513a543ffac80fef3175a0ff951366e6c5/17_Goldtape_Vinyl_Tape_Hitam.jpg",
+            "Lakban Coklat 45mm x 100 Yard": "https://raw.githubusercontent.com/adenaskolani5-jpg/PasirPogorCell/cc5ab3513a543ffac80fef3175a0ff951366e6c5/25_Giant_Tape_Bening.jpg",
+            "Deli I-Select Spidol Warna 12 Warna": "https://raw.githubusercontent.com/adenaskolani5-jpg/PasirPogorCell/cc5ab3513a543ffac80fef3175a0ff951366e6c5/23_Deli_Felt_Pen_UC150.jpg"
+        };
 
-        // ============================================================
-        // 2. DATA PRODUK
-        // ============================================================
         const PRODUK_DATA = {
             "Elektronik": [
-                { nama: "Kipas Mini MIISOO", harga: 20000, labelType: "stok", stok: 2, description: "Kipas angin mini portabel, baterai 2000mAh, 3 kecepatan, silent." },
-                { nama: "Baterai ABC Biru Size AA 1.5V", harga: 5000, labelType: "stok", stok: 25, description: "Baterai ABC, AAA." },
-                { nama: "Baterai ABC AAA (A3) (harga per 1pcs)", harga: 5000, label: null, labelType: null, stok: 20, description: "Baterai alkaline ukuran A3 (AAA), tahan lama, isi 2 pcs." }
+                { nama: "Kipas Mini MIISOO", harga: 20000, labelType: "stok", stok: 2,
+                description: "Kipas angin mini portabel, baterai 2000mAh, 3 kecepatan, silent." },
+                { nama: "Baterai ABC Biru Size AA 1.5V", harga: 5000, labelType: "stok", stok: 25,
+                    description: "Baterai ABC, AAA." },
+                { nama: "Baterai ABC AAA (A3) (harga per 1pcs)", harga: 5000, label: null, labelType: null, stok: 20,
+                    description: "Baterai alkaline ukuran A3 (AAA), tahan lama, isi 2 pcs." }
             ],
             "Aksesoris": [
-                { nama: "Charger Robot Micro USB", harga: 30000, label: null, labelType: null, stok: 0, description: "Charger kabel micro USB panjang 1 meter, mendukung arus 2A fast charging." },
-                { nama: "Kabel Micro USB KIVEE", harga: 15000, label: null, labelType: null, stok: 2, description: "Kabel micro USB." }
+                { nama: "Charger Robot Micro USB", harga: 30000, label: null, labelType: null, stok: 0,
+                    description: "Charger kabel micro USB panjang 1 meter, mendukung arus 2A fast charging." },
+                { nama: "Kabel Micro USB KIVEE", harga: 15000, label: null, labelType: null, stok: 2,
+                    description: "Kabel micro USB." }
             ],
             "Alat Tulis": [
-                { nama: "Pulpen Amilio 0.5mm", harga: 2000, label: null, labelType: null, stok: 12, description: "Pulpen gel hitam 0.5 mm, tinta cepat kering, nyaman digenggam." },
-                { nama: "Pulpen Joyko 0.5mm", harga: 5000, label: null, labelType: null, stok: 13, description: "Pulpen standar 0.5 mm, tinta tidak mudah luntur, cocok untuk sekolah." },
-                { nama: "JOYKO Pensil P-88 2B", harga: 2000, label: null, labelType: null, stok: 12, description: ">Tipe: 2B >Bentuk: Hexagonal Grip >Kayu berkualitas tinggi >For Computer Scanning (Untuk Dipindai Oleh Komputer) >Thick and Strong Lead (Isi Pensil yang Tebal dan Kuat) >For Drawing and Sketching (Untuk Menggambar dan Membuat Sketsa) >Smooth Writing (Lembut Untuk Ditulis)." },
-                { nama: "Deli I-Select Spidol Warna 12 Warna", harga: 10000, label: null, labelType: null, stok: 7, description: "Merek: Deli. Informasi dan Spesifikasi Produk: - Kode SKU: EC169. - Catatan: REPACKAGING. - Material: Tip Serat Fiber dan PP Barrel. - Tip: Bullet 1mm-1.2mm. - Pilihan Varian 12, 18, 24 Warna. - Round Barrel. - Cocok digunakan untuk menulis, menggambar, dan mewarnai" },
-                { nama: "Pensil Warna JOYKO (12 warna)", harga: 15000, labelType: "stok", stok: 4, description: "Set pensil warna 12 warna, pigmen cerah, batang kayu berkualitas." },
-                { nama: "JOYKO Penanda Berwarna Highlighter HL-88", harga: 5000, labelType: "stok", stok: 7, description: "JOYKO Penanda Berwarna Highlighter HL-88." },
-                { nama: "Buku SIDU SKOLA 1 pack (10 buku)", harga: 35000, labelType: "stok", stok: 6, description: "Paket 5 buku tulis 38 lembar, cover motif, kertas berkualitas." },
-                { nama: "Rautan pensil, JOYKO", harga: 2000, labelType: "stok", stok: 22, description: "JOYKO Sharpener Rautan 1 Pack SP-362PTL" },
-                { nama: "Pulpen Joyko i-Tech 2, 0.28mm", harga: 5000, label: null, labelType: null, stok: 18, description: "Pulpen gel tipis 0.28 mm, cocok untuk tulisan rapi dan detail." },
-                { nama: "Penghapus Joyko", harga: 3000, label: null, labelType: null, stok: 10, description: "Penghapus putih, lembut, tidak meninggalkan bekas pada kertas." },
-                { nama: "Buku CAMPUS 1 pack (10 buku)", harga: 40000, labelType: "stok", stok: 6, description: "Paket 5 buku tulis 48 lembar, ukuran A5, cover polos." }
+                { nama: "Pulpen Amilio 0.5mm", harga: 2000, label: null, labelType: null, stok: 12,
+                    description: "Pulpen gel hitam 0.5 mm, tinta cepat kering, nyaman digenggam." },
+                { nama: "Pulpen Joyko 0.5mm", harga: 5000, label: null, labelType: null, stok: 13,
+                    description: "Pulpen standar 0.5 mm, tinta tidak mudah luntur, cocok untuk sekolah." },
+                { nama: "JOYKO Pensil P-88 2B", harga: 2000, label: null, labelType: null, stok: 12,
+                    description: ">Tipe: 2B >Bentuk: Hexagonal Grip >Kayu berkualitas tinggi >For Computer Scanning (Untuk Dipindai Oleh Komputer) >Thick and Strong Lead (Isi Pensil yang Tebal dan Kuat) >For Drawing and Sketching (Untuk Menggambar dan Membuat Sketsa) >Smooth Writing (Lembut Untuk Ditulis)." },
+                { nama: "Deli I-Select Spidol Warna 12 Warna", harga: 10000, label: null, labelType: null, stok: 7,
+                    description: "Merek: Deli. Informasi dan Spesifikasi Produk: - Kode SKU: EC169. - Catatan: REPACKAGING. - Material: Tip Serat Fiber dan PP Barrel. - Tip: Bullet 1mm-1.2mm. - Pilihan Varian 12, 18, 24 Warna. - Round Barrel. - Cocok digunakan untuk menulis, menggambar, dan mewarnai" },
+                { nama: "Pensil Warna JOYKO (12 warna)", harga: 15000, labelType: "stok", stok: 4,
+                    description: "Set pensil warna 12 warna, pigmen cerah, batang kayu berkualitas." },
+                { nama: "JOYKO Penanda Berwarna Highlighter HL-88", harga: 5000, labelType: "stok", stok: 7,
+                    description: "JOYKO Penanda Berwarna Highlighter HL-88." },
+                { nama: "Buku SIDU SKOLA 1 pack (10 buku)", harga: 35000, labelType: "stok", stok: 6,
+                    description: "Paket 5 buku tulis 38 lembar, cover motif, kertas berkualitas." },
+                { nama: "Rautan pensil, JOYKO", harga: 2000, labelType: "stok", stok: 22,
+                    description: "JOYKO Sharpener Rautan 1 Pack SP-362PTL" },
+                { nama: "Pulpen Joyko i-Tech 2, 0.28mm", harga: 5000, label: null, labelType: null, stok: 18,
+                    description: "Pulpen gel tipis 0.28 mm, cocok untuk tulisan rapi dan detail." },
+                { nama: "Penghapus Joyko", harga: 3000, label: null, labelType: null, stok: 10,
+                    description: "Penghapus putih, lembut, tidak meninggalkan bekas pada kertas." },
+                { nama: "Buku CAMPUS 1 pack (10 buku)", harga: 40000, labelType: "stok", stok: 6,
+                    description: "Paket 5 buku tulis 48 lembar, ukuran A5, cover polos." }
             ],
             "Perlengkapan": [
-                { nama: "Lem Korea", harga: 5000, label: null, labelType: null, stok: 61, description: "Lem serbaguna, daya rekat kuat." },
-                { nama: "Staples Joyko", harga: 15000, label: null, labelType: null, stok: 5, description: "Staples ukuran sedang, kapasitas 20 lembar, body plastik kokoh." },
-                { nama: "Lakban Coklat 45mm x 100 Yard", harga: 10000, label: null, labelType: null, stok: 6, description: "Lakban Coklat 45mm x 100 Yard ini adalah solusi tepat untuk kebutuhan packing Anda. Dengan lebar 45 mm dan panjang 100 Yard, lakban ini memiliki daya rekat yang kuat dan tidak mudah sobek. Cocok untuk berbagai keperluan, baik untuk usaha online maupun kebutuhan sehari-hari." },
-                { nama: "Gunting Montana STI 180", harga: 1000, label: null, labelType: null, stok: 8, description: "Gunting stainless steel, panjang 18 cm, pegangan ergonomis." },
-                { nama: "Gunting Montana STI 165", harga: 8000, label: null, labelType: null, stok: 8, description: "Gunting serbaguna 16.5 cm, bilah tajam untuk kertas dan karton." },
-                { nama: "Gunting Montana STI 145", harga: 5000, label: null, labelType: null, stok: 5, description: "Gunting kecil 14.5 cm, cocok untuk keperluan detail dan anak-anak." },
-                { nama: "Refill Staples MONTANA", harga: 3000, label: null, labelType: null, stok: 23, description: "Isi staples ukuran 24/6, isi 100 pcs, cocok untuk staples standar." },
-                { nama: "Lakban Bening", harga: 2000, label: null, labelType: null, stok: 11, description: "Lakban bening lebar 48 mm, transparan dan kuat." },
-                { nama: "Lakban Hitam", harga: 2000, label: null, labelType: null, stok: 8, description: "Lakban hitam lebar 48 mm, untuk packing atau masking." }
+                { nama: "Lem Korea", harga: 5000, label: null, labelType: null, stok: 61,
+                    description: "Lem serbaguna, daya rekat kuat." },
+                { nama: "Staples Joyko", harga: 15000, label: null, labelType: null, stok: 5,
+                    description: "Staples ukuran sedang, kapasitas 20 lembar, body plastik kokoh." },
+                { nama: "Lakban Coklat 45mm x 100 Yard", harga: 10000, label: null, labelType: null, stok: 6,
+                    description: "Lakban Coklat 45mm x 100 Yard ini adalah solusi tepat untuk kebutuhan packing Anda. Dengan lebar 45 mm dan panjang 100 Yard, lakban ini memiliki daya rekat yang kuat dan tidak mudah sobek. Cocok untuk berbagai keperluan, baik untuk usaha online maupun kebutuhan sehari-hari." },
+                { nama: "Gunting Montana STI 180", harga: 1000, label: null, labelType: null, stok: 8,
+                    description: "Gunting stainless steel, panjang 18 cm, pegangan ergonomis." },
+                { nama: "Gunting Montana STI 165", harga: 8000, label: null, labelType: null, stok: 8,
+                    description: "Gunting serbaguna 16.5 cm, bilah tajam untuk kertas dan karton." },
+                { nama: "Gunting Montana STI 145", harga: 5000, label: null, labelType: null, stok: 5,
+                    description: "Gunting kecil 14.5 cm, cocok untuk keperluan detail dan anak-anak." },
+                { nama: "Refill Staples MONTANA", harga: 3000, label: null, labelType: null, stok: 23,
+                    description: "Isi staples ukuran 24/6, isi 100 pcs, cocok untuk staples standar." },
+                { nama: "Lakban Bening", harga: 2000, label: null, labelType: null, stok: 11,
+                    description: "Lakban bening lebar 48 mm, transparan dan kuat." },
+                { nama: "Lakban Hitam", harga: 2000, label: null, labelType: null, stok: 8,
+                    description: "Lakban hitam lebar 48 mm, untuk packing atau masking." }
             ]
         };
 
@@ -1285,7 +2328,7 @@ const PRODUK_IMAGES = {
 
         function renderProducts() {
             const grid = document.getElementById("productGrid");
-            const info = document.getElementById("resultInfo");
+            const countEl = document.getElementById("resultCount");
             if (!grid) return;
 
             let filtered = products.filter(p => {
@@ -1303,15 +2346,15 @@ const PRODUK_IMAGES = {
             if (currentSort === "asc") filtered.sort((a, b) => a.harga - b.harga);
             else if (currentSort === "desc") filtered.sort((a, b) => b.harga - a.harga);
 
-            info.textContent = `Menampilkan ${filtered.length} barang`;
+            countEl.textContent = filtered.length;
 
             if (filtered.length === 0) {
                 grid.innerHTML = `
-                    <div style="grid-column:1/-1; text-align:center; padding:60px 20px; color:rgba(255,255,255,0.8);">
-                        <p style="font-size:18px; font-weight:600; margin-bottom:4px;">😕 Barang tidak ditemukan</p>
-                        <p style="font-size:14px; opacity:0.7;">Coba kata kunci lain atau reset filter.</p>
-                    </div>
-                `;
+                        <div style="grid-column:1/-1; text-align:center; padding:70px 20px; color:rgba(255,255,255,0.7);">
+                            <p style="font-size:22px; font-weight:700; margin-bottom:6px;">😕 Barang tidak ditemukan</p>
+                            <p style="font-size:14px; opacity:0.6;">Coba kata kunci lain atau reset filter.</p>
+                        </div>
+                    `;
                 return;
             }
 
@@ -1331,37 +2374,48 @@ const PRODUK_IMAGES = {
 
                 const stokText = stokTersedia ? `${p.stok} pcs` : "0 pcs (Habis)";
                 const stokCls = stokTersedia ? "stok-tersedia" : "stok-habis";
+                const dotCls = stokTersedia ? "tersedia" : "habis";
 
-                const waLink = `https://wa.me/6283844843020?text=Halo%20PasirPogorCell%2C%20saya%20tertarik%20dengan%20barang%20${encodeURIComponent(p.nama)}%20-%20Rp${formattedPrice}`;
+                const waLink =
+                    `https://wa.me/6283844843020?text=Halo%20PasirPogorCell%2C%20saya%20tertarik%20dengan%20barang%20${encodeURIComponent(p.nama)}%20-%20Rp${formattedPrice}`;
 
                 html += `
-                    <div class="product-card" data-id="${p.id}">
-                        <span class="product-number">#${nomorUrut}</span>
-                        <div class="product-image">
-                            <img src="${p.image}" alt="${p.nama}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x400?text=Gambar+error'" />
-                            ${badgeHtml}
-                        </div>
-                        <div class="product-info">
-                            <div class="product-name">${p.nama}</div>
-                            <div class="product-category">${p.category}</div>
-                            <div class="product-price-row">
-                                <div class="product-price">
-                                    <span class="currency">Rp</span> ${formattedPrice}
+                        <div class="product-card" data-id="${p.id}">
+                            <span class="product-number">#${nomorUrut}</span>
+                            <div class="product-image">
+                                <img src="${p.image}" alt="${p.nama}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x400?text=Gambar+error'" />
+                                ${badgeHtml}
+                            </div>
+                            <div class="product-info">
+                                <div class="product-name">${p.nama}</div>
+                                <div class="product-category">${p.category}</div>
+                                <div class="product-price-row">
+                                    <div class="product-price">
+                                        <span class="currency">Rp</span> ${formattedPrice}
+                                    </div>
+                                </div>
+                                <div class="product-stok">
+                                    <span class="stok-dot ${dotCls}"></span>
+                                    <span>Stok: <span class="stok-angka ${stokCls}">${stokText}</span></span>
+                                </div>
+                                <div class="product-action">
+                                    <button class="btn-detail" data-id="${p.id}">Detail</button>
+                                    <a href="${waLink}" target="_blank" class="btn-wa">WA</a>
                                 </div>
                             </div>
-                            <div class="product-stok">
-                                <span>Stok: <span class="stok-angka ${stokCls}">${stokText}</span></span>
-                            </div>
-                            <div class="product-action">
-                                <button class="btn-detail" data-id="${p.id}">Detail</button>
-                                <a href="${waLink}" target="_blank" class="btn-wa">WA</a>
-                            </div>
                         </div>
-                    </div>
-                `;
+                    `;
             });
 
             grid.innerHTML = html;
+
+            // Re-trigger animation for new cards
+            document.querySelectorAll('.product-card').forEach((el, i) => {
+                el.style.animation = 'none';
+                requestAnimationFrame(() => {
+                    el.style.animation = `cardEntrance 0.6s ${0.02 + i * 0.04}s var(--transition-smooth) forwards`;
+                });
+            });
         }
 
         // ============================================================
@@ -1393,16 +2447,19 @@ const PRODUK_IMAGES = {
             const stokTersedia = p.stok > 0;
             const stokText = stokTersedia ? `${p.stok} pcs` : "0 pcs (Habis)";
             const stokCls = stokTersedia ? "stok-tersedia" : "stok-habis";
-            modalStok.innerHTML = `Stok: <span class="stok-angka ${stokCls}">${stokText}</span>`;
+            const dotCls = stokTersedia ? "tersedia" : "habis";
+            modalStok.innerHTML =
+                `<span class="stok-dot ${dotCls}"></span> Stok: <span class="stok-angka ${stokCls}">${stokText}</span>`;
 
             modalDescription.textContent = p.description || "";
-            modalWaLink.href = `https://wa.me/6283844843020?text=Halo%20PasirPogorCell%2C%20saya%20tertarik%20dengan%20barang%20${encodeURIComponent(p.nama)}%20-%20Rp${formatted}`;
-            
+            modalWaLink.href =
+                `https://wa.me/6283844843020?text=Halo%20PasirPogorCell%2C%20saya%20tertarik%20dengan%20barang%20${encodeURIComponent(p.nama)}%20-%20Rp${formatted}`;
+
             modalCopyBtn.onclick = function() {
                 navigator.clipboard.writeText(p.nama).then(() => {
-                    const originalText = modalCopyBtn.textContent;
+                    const original = modalCopyBtn.textContent;
                     modalCopyBtn.textContent = '✅ Tersalin!';
-                    setTimeout(() => { modalCopyBtn.textContent = originalText; }, 2000);
+                    setTimeout(() => { modalCopyBtn.textContent = original; }, 2000);
                 }).catch(() => {
                     alert('Gagal menyalin, silakan copy manual.');
                 });
@@ -1411,7 +2468,9 @@ const PRODUK_IMAGES = {
             modalOverlay.classList.add("active");
         }
 
-        function closeModal() { modalOverlay.classList.remove("active"); }
+        function closeModal() {
+            modalOverlay.classList.remove("active");
+        }
 
         document.addEventListener("click", function(e) {
             if (e.target.classList.contains("btn-detail")) {
@@ -1431,7 +2490,6 @@ const PRODUK_IMAGES = {
         const orderModalClose = document.getElementById("orderModalClose");
         const openOrderBtn = document.getElementById("openOrderBtn");
         const orderForm = document.getElementById("orderForm");
-        const orderSubmitBtn = document.getElementById("orderSubmitBtn");
 
         function openOrderModal() {
             orderModal.classList.add("active");
@@ -1449,7 +2507,7 @@ const PRODUK_IMAGES = {
 
         orderForm.addEventListener("submit", function(e) {
             e.preventDefault();
-            
+
             const namaBarang = document.getElementById("orderNamaBarang").value.trim();
             const spesifikasi = document.getElementById("orderSpesifikasi").value.trim();
             const harga = document.getElementById("orderHarga").value.trim();
@@ -1464,7 +2522,6 @@ const PRODUK_IMAGES = {
                 return;
             }
 
-            // Build pesan WhatsApp
             let pesan = `📦 *PESANAN PRE-ORDER - PasirPogorCell*%0A%0A`;
             pesan += `📌 *Barang:* ${namaBarang}%0A`;
             if (spesifikasi) pesan += `📝 *Spesifikasi:* ${spesifikasi}%0A`;
@@ -1481,11 +2538,8 @@ const PRODUK_IMAGES = {
             const waUrl = `https://wa.me/6283844843020?text=${pesan}`;
             window.open(waUrl, '_blank');
 
-            // Reset form
             orderForm.reset();
             document.getElementById("orderJumlah").value = "1";
-            
-            // Close modal after short delay
             setTimeout(closeOrderModal, 500);
         });
 
@@ -1509,7 +2563,8 @@ const PRODUK_IMAGES = {
 
         document.querySelectorAll("#filterGroup .filter-btn").forEach(btn => {
             btn.addEventListener("click", function() {
-                document.querySelectorAll("#filterGroup .filter-btn").forEach(b => b.classList.remove("active"));
+                document.querySelectorAll("#filterGroup .filter-btn").forEach(b => b.classList.remove(
+                "active"));
                 this.classList.add("active");
                 currentFilter = this.dataset.filter;
                 renderProducts();
@@ -1520,6 +2575,16 @@ const PRODUK_IMAGES = {
         // 8. RENDER AWAL
         // ============================================================
         renderProducts();
+
+        // ============================================================
+        // 9. KEYBOARD SHORTCUT: ESC to close modals
+        // ============================================================
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (modalOverlay.classList.contains('active')) closeModal();
+                if (orderModal.classList.contains('active')) closeOrderModal();
+            }
+        });
     </script>
 </body>
 </html>
