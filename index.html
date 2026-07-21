@@ -2047,7 +2047,6 @@
                 <span class="info-badge">📱 0838-4484-3020</span>
             </div>
             <div class="btn-group">
-                <a href="https://wa.me/6283844843020" target="_blank" class="wa-link">💬 Chat via WhatsApp</a>
                 <button class="order-link" id="openOrderBtn">📦 Pesan Barang</button>
             </div>
         </header>
@@ -2417,6 +2416,29 @@
                 });
             });
         }
+        
+        // ===== SINKRONISASI TEMA ANTAR TAB =====
+window.addEventListener('storage', function(e) {
+    if (e.key === 'theme') {
+        const newTheme = e.newValue;
+        if (newTheme) {
+            document.documentElement.setAttribute('data-theme', newTheme);
+            // Update tombol toggle
+            const toggleBtn = document.getElementById('themeToggle');
+            if (toggleBtn) {
+                // Sesuaikan teks tombol
+                toggleBtn.innerHTML = newTheme === 'dark' ? '☀️' : '🌙';
+                // Jika tombol punya icon terpisah
+                const sunIcon = toggleBtn.querySelector('.icon-sun');
+                const moonIcon = toggleBtn.querySelector('.icon-moon');
+                if (sunIcon && moonIcon) {
+                    sunIcon.style.display = newTheme === 'dark' ? 'none' : 'block';
+                    moonIcon.style.display = newTheme === 'dark' ? 'block' : 'none';
+                }
+            }
+        }
+    }
+});
 
         // ============================================================
         // 5. MODAL DETAIL
